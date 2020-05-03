@@ -3,8 +3,11 @@ package com.github.jake_burrell.movie_management;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.lang.reflect.Method;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
+import java.util.function.Function;
 
 /**
  * Console application used by Community Library in order to manage their Movie DVDs
@@ -15,9 +18,14 @@ public class MovieManagement {
     private static final String staffUserName = "staff";
     private static final String staffPassword = "today123";
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String[] args) throws IOException {
          welcomeActions();
     }
+
+    /**
+     * Control actions from welcome menu
+     * @throws IOException
+     */
 
     public static void welcomeActions() throws IOException {
         switch (welcomeMenu()) {
@@ -32,7 +40,8 @@ public class MovieManagement {
                 }
                 break;
             case 2:
-                if (memberAuthenticate()) memberMenu();
+                Member loggedInMember = memberAuthenticate();
+                if (loggedInMember != null) memberActions(loggedInMember);
                 else {
                     System.out.println("Invalid Credentials");
                     welcomeActions();
@@ -46,6 +55,11 @@ public class MovieManagement {
                 break;
         }
     }
+
+    /**
+     * Control staff actions from staffMenu
+     * @throws IOException
+     */
 
     private static void staffActions() throws IOException {
         switch (staffMenu()) {
@@ -70,19 +84,43 @@ public class MovieManagement {
         }
     }
 
-    private static void memberActions() {
-        switch (memberMenu()) {
+    /**
+     *  Control members actions from memberMenu
+     * @param loggedInMember Currently, logged in Member
+     * @throws IOException
+     */
+
+    private static void memberActions(Member loggedInMember) throws IOException {
+
+        switch (memberMenu(loggedInMember)) {
             case 1:
                 // Display all movies
                 break;
             case 2:
-                // Borrow a movie
+                // Borrow a DVD
+                break;
+            case 3:
+                // Return a movie
+                break;
+            case 4:
+                // List current borrowed movie DVDs
+                break;
+            case 5:
+                // Display top 10 most popular movies
+                break;
+            case 0:
+                welcomeActions();
+                break;
+            default:
+                System.out.println("Invalid Selection");
+
+
         }
     }
 
     /**
      * Displays welcome menu
-     * @return welcomeMenu selection int
+     * @return WelcomeMenu user selection int
      * @throws IOException
      */
 
@@ -95,17 +133,25 @@ public class MovieManagement {
                 "0. Exit\n " +
                 "================================\n");
 
-        System.out.printf(" Please make a selection (1-2, or 0 to exit): ");
+        System.out.print(" Please make a selection (1-2, or 0 to exit): ");
+        int selection = Integer.MAX_VALUE;
+        try {
+            selection = checkSelection();
+        } catch (InputMismatchException e)  {
+            System.out.println("Invalid Selection");
+            welcomeActions();
+        }
+        return selection;
 
-        return checkSelection();
     }
 
     /**
      * Displays StaffMenu
-     * @return staffMenu selection int
+     * @return staffMenu user selection int
+     * @throws IOException
      */
 
-    private static int staffMenu() {
+    private static int staffMenu() throws IOException {
         System.out.println("\n" +
                 "============Staff Menu==========\n" +
                 "1. Add a new movie DVD\n" +
@@ -115,17 +161,24 @@ public class MovieManagement {
                 "0. Return to main menu\n" +
                 "================================\n");
 
-        System.out.printf(" Please make a selection (1-4, or 0 to return to main menu): ");
-
-        return checkSelection();
+        System.out.print(" Please make a selection (1-4, or 0 to return to main menu): ");
+        int selection = Integer.MAX_VALUE;
+        try {
+            selection = checkSelection();
+        } catch (InputMismatchException e)  {
+            System.out.println("Invalid Selection");
+            staffActions();
+        }
+        return selection;
     }
 
     /**
      * Displays memberMenu
-     * @return memberMenu selection int
+     * @param loggedInMember Member currently logged in
+     * @return memberMenu user selection
      */
 
-    public static int memberMenu() {
+    public static int memberMenu(Member loggedInMember) throws IOException {
         System.out.println("\n" +
                 "===========Member Menu==========\n" +
                 "1. Display all movies\n" +
@@ -135,9 +188,16 @@ public class MovieManagement {
                 "5. Display top 10 most popular movies\n" +
                 "0. Return to main menu\n");
 
-        System.out.printf(" Please make a selection (1-5, or 0 to return to main menu): ");
+        System.out.print(" Please make a selection (1-5, or 0 to return to main menu): ");
 
-        return checkSelection();
+        int selection = Integer.MAX_VALUE;
+        try {
+            selection = checkSelection();
+        } catch (InputMismatchException e)  {
+            System.out.println("Invalid Selection");
+            memberActions(loggedInMember);
+        }
+        return selection;
     }
 
     /**
@@ -148,9 +208,9 @@ public class MovieManagement {
 
     private static String[] loginForm() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.printf("Enter username: ");
+        System.out.print("Enter username: ");
         String username = reader.readLine();
-        System.out.printf("Enter Password: ");
+        System.out.print("Enter Password: ");
         String password = reader.readLine();
         String[] returnArray = {username, password};
         return returnArray;
@@ -164,7 +224,7 @@ public class MovieManagement {
     private static Member memberAuthenticate() throws IOException {
         String[] userCreds = loginForm();
         Member aMember = new Member();
-        return ;
+        return aMember;
     }
 
     /**

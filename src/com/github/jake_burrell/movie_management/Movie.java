@@ -20,7 +20,20 @@ public class Movie {
     private Genre[] genres;
     private Classification classification;
     private Date releaseDate;
-    private int numDVDs;
+    private int copiesAvailable;
+    private int numBorrows;
+
+    public boolean movieBorrowed() {
+        if(copiesAvailable > 0) {
+            numBorrows++;
+            copiesAvailable--;
+            return true;
+        } else return false;
+    }
+
+    public void movieReturned() {
+        copiesAvailable++;
+    }
 
 
 }

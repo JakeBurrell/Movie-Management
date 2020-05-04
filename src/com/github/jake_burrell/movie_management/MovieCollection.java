@@ -12,13 +12,13 @@ public class MovieCollection {
     private BinarySearchTree<Movie> MovieDVDs;
 
     /**
-     * Add movies
+     * Add DVDs of a new movie to software application
      * @param movie
      * @implNote adds movie to Movies
      */
 
     /**
-     * Remove movie
+     * Removes a movie from the software application
      * @param movie
      * @implNote removes movie from Movies
      */

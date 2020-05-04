@@ -8,6 +8,8 @@ package com.github.jake_burrell.movie_management.models;
 
 public class BinarySearchTree<E extends Comparable<E>> {
 
+    private TreeNode<E> rootNode;
+
     private class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
 
         protected T nodeData;
@@ -20,37 +22,32 @@ public class BinarySearchTree<E extends Comparable<E>> {
             this.rightNode = null;
         }
 
-
         @Override
         public int compareTo(TreeNode<T> node) {
             return this.nodeData.compareTo(node.nodeData);
         }
     }
 
-    private TreeNode<E> rootNode;
 
     public BinarySearchTree() {
         rootNode = new TreeNode(null);
     }
 
     public void addNode(E nodeData) {
-        TreeNode<E> dataNode = new TreeNode<E>(nodeData);
+        TreeNode<E> dataNode = new TreeNode<>(nodeData);
         boolean nodeAdded = false;
         TreeNode<E> node = rootNode;
         while (!nodeAdded) {
-            if (node == null){
+            if (node == null) {
                 node.nodeData = nodeData;
             } else {
-                if (node.compareTo(dataNode) < 0)
+                if (node.compareTo(dataNode) < 0) {
                     if (node.leftNode == null) {
-
-                        }
                     }
                 }
             }
-
         }
     }
+
+
 }
-
-

@@ -4,10 +4,12 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Method;
+import java.time.Duration;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.function.Function;
+
 
 /**
  * Console application used by Community Library in order to manage their Movie DVDs
@@ -296,6 +298,13 @@ public class MovieManagement {
         }
     }
 
+    public static Movie addMoviePrompt() throws IOException {
+        BufferedReader reade = new BufferedReader(new InputStreamReader(System.in));
+        
+        Movie newMovie = new Movie();
+
+        System.out.println();
+    }
 
     /**
      * Authenticates Community library users

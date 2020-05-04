@@ -9,7 +9,11 @@ import com.github.jake_burrell.movie_management.models.BinarySearchTree;
 
 public class MovieCollection {
 
-    private BinarySearchTree<Movie> MovieDVDs;
+    private BinarySearchTree<Movie> Movies;
+
+    public BinarySearchTree<Movie> getMovies() {
+        return this.Movies;
+    }
 
     /**
      * Add DVDs of a new movie to software application

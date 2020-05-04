@@ -25,6 +25,18 @@ public class BinarySearchTree<E extends Comparable<E>> {
             this.rightNode = null;
         }
 
+        /**
+         * Swaps node with its left child node
+         **/
+        public void leftNodeSwap() {
+            if (this.leftNode != null) {
+                T tmpData = this.nodeData;
+                this.nodeData = this.leftNode.nodeData;
+                this.leftNode.nodeData = tmpData;
+            }
+        }
+
+
         @Override
         public int compareTo(TreeNode<T> node) {
             return this.nodeData.compareTo(node.nodeData);
@@ -57,7 +69,11 @@ public class BinarySearchTree<E extends Comparable<E>> {
                         nodeAdded = true;
                     } else currentNode = currentNode.leftNode;
                 } else {
-                    if (currentNode.rightNode == null) {
+                    // Checks if swap is required
+                    if (currentNode.leftNode == null) {
+                        currentNode.leftNode = dataNode;
+                        currentNode.leftNodeSwap();
+                    } else if (currentNode.rightNode == null) {
                         currentNode.rightNode = dataNode;
                         nodeAdded = true;
                     } else currentNode = currentNode.rightNode;
@@ -65,6 +81,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
             }
         }
     }
+
 
 
 

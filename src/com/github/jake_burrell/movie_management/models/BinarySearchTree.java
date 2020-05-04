@@ -1,15 +1,18 @@
 package com.github.jake_burrell.movie_management.models;
 
 /**
- * Binary Search Tree Node
+ * Binary Search Tree
  * @param <E>
  * @author Jake Burrell
  */
-
 public class BinarySearchTree<E extends Comparable<E>> {
 
     private TreeNode<E> rootNode;
 
+    /**
+     * Binary Search Tree Node
+      * @param <T>
+     */
     private class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
 
         protected T nodeData;
@@ -28,26 +31,41 @@ public class BinarySearchTree<E extends Comparable<E>> {
         }
     }
 
-
+    /**
+     * Binary Search Tree Constructor
+     */
     public BinarySearchTree() {
         rootNode = new TreeNode(null);
     }
 
+    /**
+     * Adds a node to the Binary Search tree
+      * @param nodeData Node to be added to Binary search tree
+     */
     public void addNode(E nodeData) {
         TreeNode<E> dataNode = new TreeNode<>(nodeData);
         boolean nodeAdded = false;
-        TreeNode<E> node = rootNode;
+        TreeNode<E> currentNode = rootNode;
         while (!nodeAdded) {
-            if (node == null) {
-                node.nodeData = nodeData;
+            if (currentNode == null) {
+                currentNode.nodeData = nodeData;
+                nodeAdded = true;
             } else {
-                if (node.compareTo(dataNode) < 0) {
-                    if (node.leftNode == null) {
-                    }
+                if (currentNode.compareTo(dataNode) <= 0) {
+                    if (currentNode.leftNode == null) {
+                        currentNode.leftNode = dataNode;
+                        nodeAdded = true;
+                    } else currentNode = currentNode.leftNode;
+                } else {
+                    if (currentNode.rightNode == null) {
+                        currentNode.rightNode = dataNode;
+                        nodeAdded = true;
+                    } else currentNode = currentNode.rightNode;
                 }
             }
         }
     }
+
 
 
 }

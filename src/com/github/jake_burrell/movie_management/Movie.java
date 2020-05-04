@@ -8,7 +8,15 @@ import java.util.Date;
  * @author Jake Burrell
  */
 
-public class Movie {
+public class Movie implements Comparable<Movie> {
+
+    @Override
+    public int compareTo(Movie otherMovie) {
+        int numBorrows = this.numBorrows;
+        if (numBorrows > otherMovie.numBorrows) return 1;
+        else if (numBorrows < otherMovie.numBorrows) return -1;
+        else return 0;
+    }
 
     enum Classification {General, ParentalGuidance, Mature, MatureAccompanied };
     enum Genre {Drama, Adventure, Family, SciFi, Comedy, Animation, Thriller, Other};

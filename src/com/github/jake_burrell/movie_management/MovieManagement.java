@@ -261,7 +261,7 @@ public class MovieManagement {
             System.out.print("Enter member's phone number: ");
             userData[1] = reader.readLine();
             if (userData[1].matches("\\d{10}")) phoneNumOk = true;
-            else System.out.print("Invalid phone number");
+            else System.out.print("Invalid phone number\n");
         }
 
         boolean passwordOk = false;

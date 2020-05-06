@@ -45,11 +45,10 @@ public class MovieCollection {
      * @implNote adds movie to Movies
      */
     public boolean addMovie(Movie movie) {
-        System.out.println(movie.getTitle());
-//        if (!movieExist(movie)) {
+        if (!movieExist(movie)) {
             movies.addNode(movie);
             return true;
-//        } else return false;
+        } else return false;
     }
 
     /**

@@ -1,24 +1,36 @@
 package com.github.jake_burrell.movie_management.models;
 
+import com.github.jake_burrell.movie_management.Movie;
+import com.github.jake_burrell.movie_management.MovieCollection;
+
+import java.util.Iterator;
+import java.util.Stack;
+
 /**
  * Binary Search Tree
  * @param <E>
  * @author Jake Burrell
  */
-public class BinarySearchTree<E extends Comparable<E>> {
+public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
-    public TreeNode<E> rootNode;
-    public int numNodes;
+    private TreeNode<E> rootNode;
+    private int numNodes;
+
+    @Override
+    public Iterator<E> iterator() {
+        return new TreeIterator<>(rootNode, numNodes);
+    }
 
     /**
      * Binary Search Tree Node
-      * @param <T>
+     *
+     * @param <T>
      */
     public class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
 
-        public T nodeData;
-        public TreeNode<T> leftNode;
-        public TreeNode<T> rightNode;
+        private T nodeData;
+        private TreeNode<T> leftNode;
+        private TreeNode<T> rightNode;
 
         public TreeNode(T nodeData) {
             this.nodeData = nodeData;
@@ -40,7 +52,40 @@ public class BinarySearchTree<E extends Comparable<E>> {
 
         @Override
         public int compareTo(TreeNode<T> node) {
-             return this.nodeData.compareTo(node.nodeData);
+            return this.nodeData.compareTo(node.nodeData);
+        }
+    }
+
+    private class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
+        private TreeNode<E> currentNode;
+        private Stack<TreeNode<E>> previousNodes;
+        private int numNodes;
+
+        public TreeIterator(TreeNode<E> rootNode, int numNodes) {
+            currentNode = rootNode;
+            previousNodes = new Stack<>();
+            this.numNodes = numNodes;
+            while (currentNode.leftNode != null) {
+                previousNodes.push(currentNode);
+                currentNode = currentNode.leftNode;
+            }
+        }
+
+        @Override
+        public boolean hasNext() {
+
+            return (numNodes >= 0);
+        }
+
+        @Override
+        public E next() {
+            E node = currentNode.nodeData;
+            numNodes--;
+            if (currentNode.rightNode != null) {
+                previousNodes.push(currentNode);
+                currentNode = currentNode.rightNode;
+            } else if (!previousNodes.empty()) currentNode = previousNodes.pop();
+            return node;
         }
     }
 
@@ -48,14 +93,14 @@ public class BinarySearchTree<E extends Comparable<E>> {
      * Binary Search Tree Constructor
      */
     public BinarySearchTree() {
-        rootNode = new TreeNode(null);
+        rootNode = new TreeNode<>(null);
     }
 
     /**
      * Adds a node to the Binary Search tree
+     *
      * @param nodeData Node to be added to Binary search tree
      */
-
     public void addNode(E nodeData) {
         TreeNode<E> dataNode = new TreeNode<>(nodeData);
         boolean nodeAdded = false;
@@ -84,9 +129,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
             }
         }
         numNodes++;
-
     }
-
 
 //    /**
 //     * Returns an unordered array of the Binary Search Tree
@@ -94,7 +137,7 @@ public class BinarySearchTree<E extends Comparable<E>> {
 //     * @implNote Uses Preorder traversal
 //     */
 //    public E[] toArray() {
-//        E[] treeArray = (E[])new Object[this.numNodes];
+//        E[] treeArray = (E[])[this.numNodes];
 //        int addedNodes = 0;
 //        TreeNode<E> currentNode = this.rootNode;
 //        TreeNode<E> previousNode = this.rootNode;
@@ -129,23 +172,13 @@ public class BinarySearchTree<E extends Comparable<E>> {
         return exists;
     }
 
-    public static void main (String[] args) {
-        BinarySearchTree<String> testTree = new BinarySearchTree<>();
-        testTree.addNode("b");
-        testTree.addNode("a");
-        testTree.addNode("c");
-//        testTree.addNode("4");
-//        testTree.addNode("5");
-        //System.out.println(testTree.numNodes);
-        System.out.println(testTree.rootNode.nodeData);
-        System.out.println(testTree.rootNode.leftNode.nodeData);
-        //System.out.println(testTree.rootNode.leftNode.nodeData);
-        //System.out.println(testTree.rootNode.leftNode.leftNode.nodeData);
-        System.out.println(testTree.rootNode.rightNode.nodeData);
-//
-//        Integer[] treeArray = testTree.toArray();
-//        for (Integer i: treeArray){
-//            i.toString();
-//        }
+    public static void main(String[] args) {
+
+
+        for (Movie movie: m) {
+            System.out.println(movie.getTitle());
+        }
+
     }
 }
+

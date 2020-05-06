@@ -19,8 +19,6 @@ import static com.github.jake_burrell.movie_management.MovieManagement.returnDig
 public class Movie implements Comparable<Movie> {
 
 
-
-
     enum Classification {General, ParentalGuidance, Mature, MatureAccompanied };
     enum Genre {Drama, Adventure, Family, Action, SciFi, Comedy, Animation, Thriller, Other};
 
@@ -196,10 +194,5 @@ public class Movie implements Comparable<Movie> {
         testTree.addNode(1);
         testTree.addNode(2);
 //        testTree.addNode("4");
-//        testTree.addNode("5");
-        System.out.println(testTree.numNodes);
-        System.out.println(testTree.rootNode.nodeData);
-        System.out.println(testTree.rootNode.leftNode.nodeData);
-        System.out.println();
     }
 }

@@ -28,8 +28,7 @@ public class MovieManagement {
         registeredMembers.registerMember(hardMember);
         hardMember.registerInfo(hardMemberInfo);
 
-        Movie testMovie = new Movie("Avatar");
-        movies.addMovie(testMovie);
+
 
         welcomeActions();
 
@@ -308,7 +307,7 @@ public class MovieManagement {
         System.out.print("Enter the movie title: ");
         String movieName = reader.readLine();
         Movie newMovie = new Movie(movieName);
-        if (movies.addMovie(newMovie)) {
+        if (!movies.addMovie(newMovie)) {
             System.out.print("Enter the number of copies you would like to add: ");
             newMovie.addCopies(returnDigit());
         } else {
@@ -336,8 +335,9 @@ public class MovieManagement {
         movie.setCopiesAvailable();
 
         // Needs to also add movie to movies MovieCollection
-        //movies.addNode(movie);
+        movies.addMovie(movie);
         System.out.printf("\n%s has been added.", movie.getTitle());
+        staffActions();
     }
 
     /**

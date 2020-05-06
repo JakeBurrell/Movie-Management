@@ -42,8 +42,7 @@ public class Member {
     /**
      * Called when member borrows movie. It increments numBorrows of movie and adds borrowedMovie to the members
      * borrowedMovies MovieCollection
-     * @param member
-     * @param movie
+     * @param borrowedMovie Movie that is being borrowed
      */
     public boolean memberBorrows(Movie borrowedMovie) {
         if(borrowedMovie.movieBorrowed()) {

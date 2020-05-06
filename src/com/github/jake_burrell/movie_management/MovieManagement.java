@@ -3,10 +3,7 @@ package com.github.jake_burrell.movie_management;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.lang.reflect.Method;
-import java.time.Duration;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -31,8 +28,17 @@ public class MovieManagement {
         registeredMembers.registerMember(hardMember);
         hardMember.registerInfo(hardMemberInfo);
 
+        Movie testMovie = new Movie("Avatar");
+        movies.addMovie(testMovie);
+
         welcomeActions();
+
+
     }
+
+    /*
+    ----------------------------------------------------Actions--------------------------------------------------------
+     */
 
     /**
      * Control actions from welcome menu
@@ -78,6 +84,7 @@ public class MovieManagement {
         switch (staffMenu()) {
             case 1:
                 // adds movie
+                addMoviePrompt();
                 break;
             case 2:
                 // removes movie
@@ -126,8 +133,13 @@ public class MovieManagement {
                 break;
             default:
                 System.out.println("Invalid Selection");
+                break;
         }
     }
+
+    /*
+    ----------------------------------------------------Menu's--------------------------------------------------------
+     */
 
     /**
      * Displays welcome menu
@@ -143,14 +155,9 @@ public class MovieManagement {
                 "0. Exit\n " +
                 "================================\n");
 
-        System.out.print(" Please make a selection (1-2, or 0 to exit): ");
-        Integer selection = null;
-        try {
-            selection = checkSelection();
-        } catch (InputMismatchException e)  {
-            System.out.println("Invalid Selection");
-            welcomeActions();
-        }
+        Integer selection = checkSelection(1, 2);
+
+        if (selection == null) welcomeActions();
         return selection;
 
     }
@@ -170,14 +177,8 @@ public class MovieManagement {
                 "0. Return to main menu\n" +
                 "================================\n");
 
-        System.out.print(" Please make a selection (1-4, or 0 to return to main menu): ");
-        int selection = Integer.MAX_VALUE;
-        try {
-            selection = checkSelection();
-        } catch (InputMismatchException e)  {
-            System.out.println("Invalid Selection");
-            staffActions();
-        }
+        Integer selection = checkSelection(1, 4);
+        if (selection == null) staffActions();
         return selection;
     }
 
@@ -197,21 +198,20 @@ public class MovieManagement {
                 "0. Return to main menu\n" +
                 "================================\n");
 
-        System.out.print(" Please make a selection (1-5, or 0 to return to main menu): ");
 
-        Integer selection = null;
-        try {
-            selection = checkSelection();
-        } catch (InputMismatchException e)  {
-            System.out.println("Invalid Selection");
-            memberActions(loggedInMember);
-        }
+        Integer selection = checkSelection(1, 5);
+        if (selection == null) memberActions(loggedInMember);
+
         return selection;
     }
 
+    /*
+    ------------------------------------------------Other Methods-------------------------------------------------------
+     */
+
     /**
-     * Prompts user to enter name of user who's phone number is required then prints number to screen before returning
-     * to staffActions()
+     * Prompts user to enter name of user who's phone number is required then prints number to screen
+     * before returning to staffActions()
      */
     public static void memberPhonePrompt() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -246,6 +246,26 @@ public class MovieManagement {
         return returnArray;
     }
 
+    /**
+     * Registers member and calls registerMemberInfo unless they already exits. In which case
+     * it calls staffActions()
+     * @throws IOException
+     */
+    public static void registerMember() throws IOException {
+        String[] username = new String[2];
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter member's first name: ");
+        username[0] = reader.readLine();
+        System.out.print("Enter member's last name: ");
+        username[1] = reader.readLine();
+        Member newMember = new Member(username);
+        if (registeredMembers.registerMember(newMember)) {
+            registerMemberInfo(newMember);
+        } else {
+            System.out.printf("%s %s has already registered.\n", username[0], username[1]);
+            staffActions();
+        }
+    }
 
     /**
      * Promotes staff for additional member info then returns them to staffActions().
@@ -278,32 +298,46 @@ public class MovieManagement {
         staffActions();
     }
 
+
     /**
-     * Registers member and calls registerMemberInfo unless they already exits. In which case it calls staffActions()
-      * @throws IOException
+     * Checks if movie already exists if so prompts for number of copies else calls addMovieInfo
+     * @throws IOException
      */
-    public static void registerMember() throws IOException {
-        String[] username = new String[2];
+    public static void addMoviePrompt() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Enter member's first name: ");
-        username[0] = reader.readLine();
-        System.out.print("Enter member's last name: ");
-        username[1] = reader.readLine();
-        Member newMember = new Member(username);
-        if (registeredMembers.registerMember(newMember)) {
-            registerMemberInfo(newMember);
+        System.out.print("Enter the movie title: ");
+        String movieName = reader.readLine();
+        Movie newMovie = new Movie(movieName);
+        if (movies.addMovie(newMovie)) {
+            System.out.print("Enter the number of copies you would like to add: ");
+            newMovie.addCopies(returnDigit());
         } else {
-            System.out.printf("%s %s has already registered.\n", username[0], username[1]);
-            staffActions();
+            addMovieInfo(newMovie);
         }
     }
 
-    public static Movie addMoviePrompt() throws IOException {
-        BufferedReader reade = new BufferedReader(new InputStreamReader(System.in));
-        
-        Movie newMovie = new Movie();
+    /**
+     * Adds movie info to a particular Movie
+     * @param movie Movie to add info to
+     * @throws IOException
+     */
+    public static void addMovieInfo(Movie movie) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter the staring actors(s): ");
+        String starringStr = reader.readLine();
+        movie.setStarring(starringStr.split(","));
+        System.out.print("Enter the director(s): ");
+        String directorsStr = reader.readLine();
+        movie.setDirectors(directorsStr.split(","));
+        movie.setGenre();
+        movie.setClassification();
+        movie.setDuration();
+        movie.setReleaseDate();
+        movie.setCopiesAvailable();
 
-        System.out.println();
+        // Needs to also add movie to movies MovieCollection
+        //movies.addNode(movie);
+        System.out.printf("\n%s has been added.", movie.getTitle());
     }
 
     /**
@@ -326,12 +360,35 @@ public class MovieManagement {
     }
 
     /**
-     * Scans for user selection
-     * @return selection int
+     * Prints prompt and scans for user selection
+     * @return Integer relating to the users selection
      */
-    private static int checkSelection() {
+    private static Integer checkSelection(int startSelection, int endingSelection) {
+        Integer input;
+        System.out.printf(" Please make a selection (%d-%d, or 0 to return to main menu): ",
+                startSelection, endingSelection);
+
+        input = returnDigit();
+        if ((input < startSelection) || (input > endingSelection)) {
+            input = null;
+            System.out.println("Invalid Selection");
+        }
+
+        return input;
+    }
+
+    /**
+     * Returns digit from the user
+     * @return Integer relating to the digit selected by the user
+     */
+    protected static Integer returnDigit() {
         Scanner scanner = new Scanner(new InputStreamReader(System.in));
-        int input = scanner.nextInt();
+        Integer input = null;
+        try {
+            input = scanner.nextInt();
+        } catch (InputMismatchException e)  {
+            System.out.println("Invalid number");
+        }
         return input;
     }
 

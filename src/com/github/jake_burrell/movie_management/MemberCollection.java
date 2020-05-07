@@ -1,6 +1,5 @@
 package com.github.jake_burrell.movie_management;
 
-import java.util.Arrays;
 
 /**
  * Stores a collection of members who use the community library

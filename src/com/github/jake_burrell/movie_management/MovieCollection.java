@@ -19,7 +19,14 @@ public class MovieCollection {
         return this.movies;
     }
 
-
+    /**
+     * Display Information about all movies
+     */
+    public void displayMovieInfo() {
+        for (Movie movie: movies) {
+            System.out.println(movie.toString());
+        }
+    }
 
     /**
      * Returns if the movie name exists within the movie collection
@@ -27,21 +34,22 @@ public class MovieCollection {
      * @return
      */
     public boolean movieExist(Movie movie) {
-        return false;
+        return movies.itemExists(movie);
     }
 
     /**
-     * Returns movie of a given name
-     * @param movieTitle Movie name within the collection
-     * @return Return movie within the collection else it returns null
+     * Retrieves a movie from the movie collection
+     * @param movieName The name of them movie as a String
+     * @return The movie with the provided name
      */
-//    public Movie getMovie(String movieTitle) {
-//
-//    }
+    public Movie retrieveMovie(String movieName){
+        Movie someMovie = new Movie(movieName);
+        return movies.searchTree(someMovie);
+    }
 
     /**
      * Add DVDs of a new movie to software application
-     * @param movie
+     * @param movie Move in which to add to the movie collection
      * @implNote adds movie to Movies
      */
     public boolean addMovie(Movie movie) {
@@ -57,9 +65,7 @@ public class MovieCollection {
      * @implNote removes movie from Movies
      */
 
-    /**
-     * Display Information about all movies
-     */
+
 
     /**
      * Display the top 10 most frequently borrowed movies

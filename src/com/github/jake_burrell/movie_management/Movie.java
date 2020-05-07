@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Duration;
 import java.time.Year;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.Objects;
 
 import static com.github.jake_burrell.movie_management.MovieManagement.returnDigit;
 
@@ -19,9 +21,36 @@ import static com.github.jake_burrell.movie_management.MovieManagement.returnDig
 public class Movie implements Comparable<Movie> {
 
 
-    enum Classification {General, ParentalGuidance, Mature, MatureAccompanied };
-    enum Genre {Drama, Adventure, Family, Action, SciFi, Comedy, Animation, Thriller, Other};
+    enum Classification {General {
+        @Override
+        public String toString() {
+            return "General (G)";
+        }
+    }, ParentalGuidance {
+        @Override
+        public String toString() {
+            return "Parental Guidance (PG)";
+        }
+    }, Mature {
+        @Override
+        public String toString() {
+            return "Mature (M15+)";
+        }
+    }, MatureAccompanied {
+        @Override
+        public String toString() {
+            return "Mature Accompanied (MA15+)";
+        }
+    } };
 
+    enum Genre {Drama, Adventure, Family, Action, SciFi {
+        @Override
+        public String toString() {
+            return "Sci-Fi";
+        }
+    }, Comedy, Animation, Thriller, Other};
+
+    //Properties
     private String title;
     private String[] starring;
     private String[] directors;
@@ -38,6 +67,11 @@ public class Movie implements Comparable<Movie> {
 
     public String getTitle() {
         return this.title;
+    }
+
+
+    public Object getCopiesAvailable() {
+        return this.copiesAvailable;
     }
 
     public boolean movieBorrowed() {
@@ -132,7 +166,7 @@ public class Movie implements Comparable<Movie> {
                 "Select the classification: \n" +
                 "1. General (G)\n" +
                 "2. Parental Guidance (PG)\n" +
-                "3. Mature (M15+)" +
+                "3. Mature (M15+)\n" +
                 "4. Mature Accompanied (MA15+)\n" +
                 "Make Selection(1-4): ");
         Integer selection = returnDigit();
@@ -188,11 +222,51 @@ public class Movie implements Comparable<Movie> {
             setCopiesAvailable();
         }
     }
-    public static void main (String[] args) {
-        BinarySearchTree<Integer> testTree = new BinarySearchTree<>();
-        testTree.addNode(3);
-        testTree.addNode(1);
-        testTree.addNode(2);
-//        testTree.addNode("4");
+
+    @Override
+    public String toString(){
+        String directorStr = Arrays.toString(directors);
+        String starringStr = Arrays.toString(directors);
+        return String.format("\n" +
+                "Title: %s\n" +
+                "Starring: %s\n" +
+                "Director(s): %s\n" +
+                "Genre: %s\n" +
+                "Classification: %s\n" +
+                "Release Date: %d" +
+                "Duration: %d minutes\n" +
+                "Release Date: %d\n" +
+                "Times Rented: %d",
+                title, starringStr.substring(1, starringStr.length()-1), directorStr.substring(1,directorStr.length()-1),
+                genre.toString(), classification.toString(), releaseDate,
+                duration.toMinutes(), copiesAvailable, numBorrows);
+
     }
+
+    /**
+     * Auto-Generated override from template
+     * @param o
+     * @return
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return title.equals(movie.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
+    }
+
+    //    // For testing
+//    public Movie[] hardCoddedMovies() {
+//        Movie[] movies = new Movie[3];
+//        Movie movie1 = new Movie("Movie1");
+//        movie.
+//    }
+
+
 }

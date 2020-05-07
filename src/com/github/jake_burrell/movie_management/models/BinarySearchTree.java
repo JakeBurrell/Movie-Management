@@ -23,10 +23,9 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Binary Search Tree Node
-     *
      * @param <T>
      */
-    public class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
+    private class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
 
         private T nodeData;
         private TreeNode<T> leftNode;
@@ -56,14 +55,24 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         }
     }
 
+    /**
+     * Iterates over the binary search tree in order
+     * @param <E>
+     */
+
     private class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
+
         private TreeNode<E> currentNode;
+        private TreeNode<E>[] nodesReturned;
         private Stack<TreeNode<E>> previousNodes;
+        private int numNodesReturned;
         private int numNodes;
 
         public TreeIterator(TreeNode<E> rootNode, int numNodes) {
             currentNode = rootNode;
             previousNodes = new Stack<>();
+            numNodesReturned = 0;
+            nodesReturned = new TreeNode[numNodes];
             this.numNodes = numNodes;
             while (currentNode.leftNode != null) {
                 previousNodes.push(currentNode);
@@ -73,20 +82,37 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         @Override
         public boolean hasNext() {
-
-            return (numNodes >= 0);
+            return (numNodes > 0);
         }
 
         @Override
         public E next() {
             E node = currentNode.nodeData;
+            numNodesReturned++;
+            nodesReturned[numNodesReturned -1] = currentNode;
             numNodes--;
-            if (currentNode.rightNode != null) {
-                previousNodes.push(currentNode);
+            if (currentNode.rightNode != null && !beenReturned(currentNode.rightNode)) {
                 currentNode = currentNode.rightNode;
-            } else if (!previousNodes.empty()) currentNode = previousNodes.pop();
+                while (currentNode.leftNode != null) {
+                    previousNodes.push(currentNode);
+                    currentNode = currentNode.leftNode;
+                }
+            } else if (currentNode.leftNode != null && !beenReturned(currentNode.leftNode)) {
+                currentNode = currentNode.leftNode;
+            } else if (!previousNodes.empty() ) {
+                currentNode = previousNodes.pop();
+            }
             return node;
         }
+
+        private boolean beenReturned(TreeNode<E> checkNode) {
+            for (TreeNode<E> node : nodesReturned) {
+                if (node == checkNode) return true;
+            }
+            return false;
+        }
+
+
     }
 
     /**
@@ -120,10 +146,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
                         currentNode.rightNode = dataNode;
                         nodeAdded = true;
                     }
-//                    // Checks if swap is required
-//                    if (currentNode.leftNode == null) {
-//                        currentNode.leftNode = dataNode;
-//                        currentNode.leftNodeSwap();
                     else currentNode = currentNode.rightNode;
                 }
             }
@@ -131,52 +153,52 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         numNodes++;
     }
 
-//    /**
-//     * Returns an unordered array of the Binary Search Tree
-//     * @return Returns an array of E
-//     * @implNote Uses Preorder traversal
-//     */
-//    public E[] toArray() {
-//        E[] treeArray = (E[])[this.numNodes];
-//        int addedNodes = 0;
-//        TreeNode<E> currentNode = this.rootNode;
-//        TreeNode<E> previousNode = this.rootNode;
-//        while (addedNodes < this.numNodes) {
-//            ifUniqueAdd(treeArray, currentNode.nodeData, addedNodes);
-//            addedNodes++;
-//            if (currentNode.leftNode != null) {
-//                previousNode = currentNode;
-//                currentNode = currentNode.leftNode;
-//                ifUniqueAdd(treeArray, currentNode.nodeData, addedNodes);
-//                addedNodes++;
-//            } else if (currentNode.rightNode != null) {
-//                previousNode = currentNode;
-//                currentNode = currentNode.rightNode;
-//                ifUniqueAdd(treeArray, currentNode.rightNode.nodeData, addedNodes);
-//                addedNodes++;
-//            }
-//            currentNode = previousNode;
-//        }
-//        return treeArray;
-//    }
+    /**
+     * Search for item within binary search tree returning the item if its found otherwise it returns null
+     * @param searchItem Item to search for within the search tree
+     * @return Returns the item when found otherwise it returns null
+     */
+    public E searchTree(E searchItem) {
+        TreeNode<E> searchNode = new TreeNode<>(searchItem);
+        TreeNode<E> currentNode = rootNode;
+        try {
+            while (!searchNode.nodeData.equals(currentNode.nodeData)) {
+                if (currentNode.compareTo(searchNode) >= 0) {
+                    currentNode = currentNode.leftNode;
+                } else currentNode = currentNode.rightNode;
+            }
+            return currentNode.nodeData;
+        } catch (NullPointerException E) {
+            return null;
+        }
 
-    public void ifUniqueAdd(E[] nodeDataArray, E nodeData, int indexAdd) {
-        if (!nodeDataExists(nodeDataArray, nodeData)) nodeDataArray[indexAdd] = nodeData;
     }
 
-    public boolean nodeDataExists(E[] nodeDataArray, E nodeData) {
-        boolean exists = false;
-        for (E nodesData : nodeDataArray) {
-            if (nodesData == nodeData) exists = true;
-        }
-        return exists;
+    public boolean itemExists(E checkItem) {
+        return (searchTree(checkItem) != null);
     }
 
     public static void main(String[] args) {
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        tree.addNode(100);
+        tree.addNode(50);
+        tree.addNode(12);
+        tree.addNode(1);
+        tree.addNode(10);
+        tree.addNode(400);
+        tree.addNode(320);
+        tree.addNode(500);
+        tree.addNode(450);
+        tree.addNode(430);
+        tree.addNode(20);
+        tree.addNode(12);
+        tree.addNode(150);
+        System.out.println(tree.searchTree(12));
 
+        //System.out.println();
 
-        for (Movie movie: m) {
-            System.out.println(movie.getTitle());
+        for (Integer number: tree) {
+            System.out.println(number);
         }
 
     }

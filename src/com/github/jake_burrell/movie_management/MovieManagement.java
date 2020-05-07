@@ -12,6 +12,7 @@ import java.util.Scanner;
  * Console application used by Community Library in order to manage their Movie DVDs
  * @author Jake Burrell
  */
+
 public class MovieManagement {
 
     private static final String staffUserName = "staff";
@@ -29,10 +30,7 @@ public class MovieManagement {
         hardMember.registerInfo(hardMemberInfo);
 
 
-
         welcomeActions();
-
-
     }
 
     /*
@@ -114,6 +112,8 @@ public class MovieManagement {
         switch (memberMenu(loggedInMember)) {
             case 1:
                 // Display all movies
+                movies.displayMovieInfo();
+                memberActions(loggedInMember);
                 break;
             case 2:
                 // Borrow a DVD
@@ -154,7 +154,7 @@ public class MovieManagement {
                 "0. Exit\n " +
                 "================================\n");
 
-        Integer selection = checkSelection(1, 2);
+        Integer selection = checkSelection(0, 2);
 
         if (selection == null) welcomeActions();
         return selection;
@@ -176,7 +176,7 @@ public class MovieManagement {
                 "0. Return to main menu\n" +
                 "================================\n");
 
-        Integer selection = checkSelection(1, 4);
+        Integer selection = checkSelection(0, 4);
         if (selection == null) staffActions();
         return selection;
     }
@@ -198,7 +198,7 @@ public class MovieManagement {
                 "================================\n");
 
 
-        Integer selection = checkSelection(1, 5);
+        Integer selection = checkSelection(0, 5);
         if (selection == null) memberActions(loggedInMember);
 
         return selection;
@@ -309,7 +309,10 @@ public class MovieManagement {
         Movie newMovie = new Movie(movieName);
         if (!movies.addMovie(newMovie)) {
             System.out.print("Enter the number of copies you would like to add: ");
-            newMovie.addCopies(returnDigit());
+            Movie existingMovie = movies.retrieveMovie(movieName);
+            existingMovie.addCopies(returnDigit());
+            System.out.printf("There are now %S copies of %s\n",existingMovie.getCopiesAvailable(), existingMovie.getTitle());
+            staffActions();
         } else {
             addMovieInfo(newMovie);
         }
@@ -334,9 +337,7 @@ public class MovieManagement {
         movie.setReleaseDate();
         movie.setCopiesAvailable();
 
-        // Needs to also add movie to movies MovieCollection
-        movies.addMovie(movie);
-        System.out.printf("\n%s has been added.", movie.getTitle());
+        System.out.printf("\n%s has been added.\n", movie.getTitle());
         staffActions();
     }
 
@@ -366,7 +367,7 @@ public class MovieManagement {
     private static Integer checkSelection(int startSelection, int endingSelection) {
         Integer input;
         System.out.printf(" Please make a selection (%d-%d, or 0 to return to main menu): ",
-                startSelection, endingSelection);
+                startSelection + 1, endingSelection);
 
         input = returnDigit();
         if ((input < startSelection) || (input > endingSelection)) {

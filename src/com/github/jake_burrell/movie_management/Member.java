@@ -46,9 +46,13 @@ public class Member {
      */
     public boolean memberBorrows(Movie borrowedMovie) {
         if(borrowedMovie.movieBorrowed()) {
-            // this.borrowedMovies.addMovie(borrowedMovie);
+            this.borrowedMovies.addMovie(borrowedMovie);
             return true;
         } else return false;
+    }
+
+    public boolean memberReturns(Movie returnedMovie) {
+        return true;
     }
 
 }

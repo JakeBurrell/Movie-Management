@@ -3,6 +3,7 @@ package com.github.jake_burrell.movie_management;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -117,6 +118,7 @@ public class MovieManagement {
                 break;
             case 2:
                 // Borrow a DVD
+                borrowingPrompt(loggedInMember);
                 break;
             case 3:
                 // Return a movie
@@ -227,6 +229,19 @@ public class MovieManagement {
             System.out.println("Invalid User");
         }
         staffActions();
+    }
+
+    public static void borrowingPrompt(Member loggedInMember) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.println("Please enter the movie you wish to borrow: ");
+        String movieName = reader.readLine();
+        Movie borrowedMovie = movies.retrieveMovie(movieName);
+        if (borrowedMovie != null) {
+            if (loggedInMember.memberBorrows(borrowedMovie)){
+                System.out.printf("You have borrowed the movie %s\n", borrowedMovie.getTitle());
+            } else System.out.println("Movie unavailable");
+        } else System.out.println("Invalid movie name");
+        memberActions(loggedInMember);
     }
 
 

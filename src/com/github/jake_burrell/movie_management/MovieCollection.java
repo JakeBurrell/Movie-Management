@@ -48,9 +48,9 @@ public class MovieCollection {
     }
 
     /**
-     * Add DVDs of a new movie to software application
+     * Adds a new movie to the Movie collection if a movie of the same name wasn't already added
      * @param movie Move in which to add to the movie collection
-     * @implNote adds movie to Movies
+     * @return True if the movie did npt exist within the movie collection
      */
     public boolean addMovie(Movie movie) {
         if (!movieExist(movie)) {
@@ -64,6 +64,7 @@ public class MovieCollection {
      * @param movie
      * @implNote removes movie from Movies
      */
+    public boolean removeMovie()
 
 
 

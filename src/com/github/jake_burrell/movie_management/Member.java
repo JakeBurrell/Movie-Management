@@ -18,25 +18,24 @@ public class Member {
     public Member(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
-        borrowedMovies = null;
+        borrowedMovies = new MovieCollection();
     }
 
     public Member(String[] username) {
         this.firstName = username[0];
         this.lastName = username[1];
-        borrowedMovies = null;
+        borrowedMovies = new MovieCollection();
     }
 
     public void registerInfo(String[] memberInfo) {
         this.address = memberInfo[0];
         this.phoneNumber = Integer.parseInt(memberInfo[1]);
         this.password = Integer.parseInt(memberInfo[2]);
-        borrowedMovies = null;
+        borrowedMovies = new MovieCollection();
     }
 
     public String getUsername() {
-        String usrName = lastName + firstName;
-        return usrName;
+        return lastName + firstName;
     }
 
     /**
@@ -45,14 +44,29 @@ public class Member {
      * @param borrowedMovie Movie that is being borrowed
      */
     public boolean memberBorrows(Movie borrowedMovie) {
-        if(borrowedMovie.movieBorrowed()) {
+        if(borrowedMovie.movieBorrowed() && (!this.borrowedMovies.movieExist(borrowedMovie))) {
             this.borrowedMovies.addMovie(borrowedMovie);
             return true;
         } else return false;
     }
 
-    public boolean memberReturns(Movie returnedMovie) {
-        return true;
+    public void memberReturns(Movie returnedMovie) {
+        returnedMovie.movieReturned();
+        borrowedMovies.removeMovie(returnedMovie);
+    }
+
+    public MovieCollection getBorrowedMovies() {
+        return this.borrowedMovies;
+    }
+
+    public void displayBorrowed() {
+        if (borrowedMovies.getNumMovies() > 0) {
+            System.out.println("You have borrowed the following movies: ");
+            for (Movie borrowedMovie: borrowedMovies.getMovies()) {
+                System.out.println(borrowedMovie.getTitle());
+            }
+        } else System.out.println("You have no borrowed movies");
+
     }
 
 }

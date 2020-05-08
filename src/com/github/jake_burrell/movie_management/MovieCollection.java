@@ -19,6 +19,10 @@ public class MovieCollection {
         return this.movies;
     }
 
+    public int getNumMovies() {
+        return movies.getNumNodes();
+    }
+
     /**
      * Display Information about all movies
      */
@@ -60,15 +64,76 @@ public class MovieCollection {
     }
 
     /**
-     * Removes a movie from the software application
-     * @param movie
-     * @implNote removes movie from Movies
+     * Removes a movie from the MovieCollection if it exists
+     * @param movie The movie to be deleted.
+     * @return
      */
-    public boolean removeMovie()
-
-
+    public boolean removeMovie(Movie movie){
+        return movies.removeNode(movie);
+    }
 
     /**
      * Display the top 10 most frequently borrowed movies
      */
+    public String[] top10Borrowed() {
+        BinarySearchTree<MoviePair> orderedMovies = new BinarySearchTree<>();
+        String[] titleTopTen = new String[10];
+        for (Movie movie : movies) {
+            MoviePair moviePair = new MoviePair(movie.getTitle(), movie.getNumBorrows());
+            orderedMovies.addNode(moviePair);
+        }
+
+        int index = 0;
+        for (MoviePair moviePair: orderedMovies) {
+            titleTopTen[index] = moviePair.movieName;
+            if (index == 10) break;
+            index++;
+        }
+        return titleTopTen;
+
+//        int[] numBorrows = new int[10];
+//        String[] movieNames = new String[10];
+//        for (Movie movie: movies) {
+//            for (int index = 0; index < 10; index++) {
+//                if (movieNames[index] != null || movie.getNumBorrows() > numBorrows[index]) {
+//                    numBorrows[index] = movie.getNumBorrows();
+//                    movieNames[index] = movie.getTitle();
+//                }
+//            }
+//        }
+
+    }
+
+    /**
+     * Class for storing movie names alongside their number of borrows. It also overrides the compareTo method so
+     * that MovieParis are ordered based on their num borrows in reverse order. This allows them to be inserted into
+     * the Binary Search Tree and then traverse the tree using ordered traversal thus returning a list of movies based
+     * on their numBorrows from most to least
+     */
+    private class MoviePair implements Comparable<MoviePair>{
+        private String movieName;
+        private Integer numBorrows;
+
+        public MoviePair(String movieName, int numBorrows) {
+            this.movieName = movieName;
+            this.numBorrows = numBorrows;
+        }
+
+        @Override
+        public int compareTo(MoviePair otherPair) {
+            int numBorrows = this.numBorrows;
+            if (numBorrows > otherPair.numBorrows) return -1;
+            else if (numBorrows < otherPair.numBorrows) return 1;
+            else return 0;
+        }
+
+        public String getMovieName() {
+            return this.movieName;
+        }
+
+    }
+
+    public static void main(String[] args) {
+
+    }
 }

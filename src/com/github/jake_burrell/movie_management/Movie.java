@@ -41,14 +41,14 @@ public class Movie implements Comparable<Movie> {
         public String toString() {
             return "Mature Accompanied (MA15+)";
         }
-    } };
+    } }
 
     enum Genre {Drama, Adventure, Family, Action, SciFi {
         @Override
         public String toString() {
             return "Sci-Fi";
         }
-    }, Comedy, Animation, Thriller, Other};
+    }, Comedy, Animation, Thriller, Other}
 
     //Properties
     private String title;
@@ -63,12 +63,16 @@ public class Movie implements Comparable<Movie> {
 
     public Movie(String title) {
         this.title = title;
+        numBorrows = 0;
     }
 
     public String getTitle() {
         return this.title;
     }
 
+    public int getNumBorrows() {
+        return numBorrows;
+    }
 
     public Object getCopiesAvailable() {
         return this.copiesAvailable;
@@ -102,10 +106,6 @@ public class Movie implements Comparable<Movie> {
     @Override
     public int compareTo(Movie otherMovie) {
         return this.title.compareTo(otherMovie.title);
-//        int numBorrows = this.numBorrows;
-//        if (numBorrows > otherMovie.numBorrows) return 1;
-//        else if (numBorrows < otherMovie.numBorrows) return -1;
-//        else return 0;
     }
 
     public void setDirectors(String[] directors) {
@@ -226,17 +226,17 @@ public class Movie implements Comparable<Movie> {
     @Override
     public String toString(){
         String directorStr = Arrays.toString(directors);
-        String starringStr = Arrays.toString(directors);
+        String starringStr = Arrays.toString(starring);
         return String.format("\n" +
                 "Title: %s\n" +
                 "Starring: %s\n" +
                 "Director(s): %s\n" +
                 "Genre: %s\n" +
                 "Classification: %s\n" +
-                "Release Date: %d" +
-                "Duration: %d minutes\n" +
                 "Release Date: %d\n" +
-                "Times Rented: %d",
+                "Duration: %d minutes\n" +
+                "Copies Available: %d\n" +
+                "Times Rented: %d\n",
                 title, starringStr.substring(1, starringStr.length()-1), directorStr.substring(1,directorStr.length()-1),
                 genre.toString(), classification.toString(), releaseDate,
                 duration.toMinutes(), copiesAvailable, numBorrows);
@@ -261,12 +261,115 @@ public class Movie implements Comparable<Movie> {
         return Objects.hash(title);
     }
 
-    //    // For testing
-//    public Movie[] hardCoddedMovies() {
-//        Movie[] movies = new Movie[3];
-//        Movie movie1 = new Movie("Movie1");
-//        movie.
-//    }
+    // For testing
+    public static Movie[] hardCoddedMovies() {
+
+        Movie movie1 = new Movie("Movie1");
+        movie1.genre = Genre.Adventure;
+        movie1.starring = new String[]{"Actor"};
+        movie1.directors = new String[] { "Director"};
+        movie1.duration = Duration.ofMinutes(50);
+        movie1.classification = Classification.MatureAccompanied;
+        movie1.releaseDate = 2012;
+        movie1.copiesAvailable = 1;
+        movie1.numBorrows = 1;
+
+        Movie movie2 = new Movie("Movie2");
+        movie2.genre = Genre.Adventure;
+        movie2.starring = new String[]{"Actor, Actor 2"};
+        movie2.directors = new String[] { "Director, Director 3"};
+        movie2.duration = Duration.ofMinutes(50);
+        movie2.classification = Classification.MatureAccompanied;
+        movie2.releaseDate = 2012;
+        movie2.copiesAvailable = 2;
+        movie2.numBorrows = 2;
+
+        Movie movie3 = new Movie("Movie3");
+        movie3.genre = Genre.Adventure;
+        movie3.starring = new String[]{"Actor"};
+        movie3.directors = new String[] { "Director"};
+        movie3.duration = Duration.ofMinutes(50);
+        movie3.classification = Classification.MatureAccompanied;
+        movie3.releaseDate = 2012;
+        movie3.copiesAvailable = 3;
+        movie3.numBorrows = 3;
+
+        Movie movie4 = new Movie("Movie4");
+        movie4.genre = Genre.Adventure;
+        movie4.starring = new String[]{"Actor, Actor 2"};
+        movie4.directors = new String[] { "Director, Director 3"};
+        movie4.duration = Duration.ofMinutes(50);
+        movie4.classification = Classification.MatureAccompanied;
+        movie4.releaseDate = 2012;
+        movie4.copiesAvailable = 4;
+        movie4.numBorrows = 4;
+
+        Movie movie5 = new Movie("Movie5");
+        movie5.genre = Genre.Adventure;
+        movie5.starring = new String[]{"Actor, Actor 2"};
+        movie5.directors = new String[] { "Director, Director 3"};
+        movie5.duration = Duration.ofMinutes(50);
+        movie5.classification = Classification.MatureAccompanied;
+        movie5.releaseDate = 2012;
+        movie5.copiesAvailable = 5;
+        movie5.numBorrows = 5;
+
+
+        Movie movie6 = new Movie("Movie6");
+        movie6.genre = Genre.Adventure;
+        movie6.starring = new String[]{"Actor, Actor 2"};
+        movie6.directors = new String[] { "Director, Director 3"};
+        movie6.duration = Duration.ofMinutes(50);
+        movie6.classification = Classification.MatureAccompanied;
+        movie6.releaseDate = 2012;
+        movie6.copiesAvailable = 5;
+        movie6.numBorrows = 6;
+
+        Movie movie7 = new Movie("Movie7");
+        movie7.genre = Genre.Adventure;
+        movie7.starring = new String[]{"Actor, Actor 2"};
+        movie7.directors = new String[] { "Director, Director 3"};
+        movie7.duration = Duration.ofMinutes(50);
+        movie7.classification = Classification.MatureAccompanied;
+        movie7.releaseDate = 2012;
+        movie7.copiesAvailable = 5;
+        movie7.numBorrows = 7;
+
+        Movie movie8 = new Movie("Movie8");
+        movie8.genre = Genre.Adventure;
+        movie8.starring = new String[]{"Actor, Actor 2"};
+        movie8.directors = new String[] { "Director, Director 3"};
+        movie8.duration = Duration.ofMinutes(50);
+        movie8.classification = Classification.MatureAccompanied;
+        movie8.releaseDate = 2012;
+        movie8.copiesAvailable = 5;
+        movie8.numBorrows = 8;
+
+        Movie movie9 = new Movie("Movie9");
+        movie9.genre = Genre.Adventure;
+        movie9.starring = new String[]{"Actor, Actor 2"};
+        movie9.directors = new String[] { "Director, Director 3"};
+        movie9.duration = Duration.ofMinutes(50);
+        movie9.classification = Classification.MatureAccompanied;
+        movie9.releaseDate = 2012;
+        movie9.copiesAvailable = 5;
+        movie9.numBorrows = 9;
+
+        Movie movie10 = new Movie("Movie10");
+        movie10.genre = Genre.Adventure;
+        movie10.starring = new String[]{"Actor, Actor 2"};
+        movie10.directors = new String[] { "Director, Director 3"};
+        movie10.duration = Duration.ofMinutes(50);
+        movie10.classification = Classification.MatureAccompanied;
+        movie10.releaseDate = 2012;
+        movie10.copiesAvailable = 5;
+        movie10.numBorrows = 10;
+
+        Movie[] movies = {movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8, movie9, movie10};
+        return movies;
+
+
+    }
 
 
 }

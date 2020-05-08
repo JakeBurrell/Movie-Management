@@ -19,8 +19,8 @@ public class MovieManagement {
     private static final String staffUserName = "staff";
     private static final String staffPassword = "today123";
 
-    private static MemberCollection registeredMembers = new MemberCollection();
-    private static MovieCollection movies = new MovieCollection();
+    private static final MemberCollection registeredMembers = new MemberCollection();
+    private static final MovieCollection movies = new MovieCollection();
 
     public static void main(String[] args) throws IOException {
 
@@ -29,7 +29,10 @@ public class MovieManagement {
         String[] hardMemberInfo = {"address", "1234567890", "1234"};
         registeredMembers.registerMember(hardMember);
         hardMember.registerInfo(hardMemberInfo);
-
+        Movie[] testMovies = Movie.hardCoddedMovies();
+        for (Movie movie: testMovies) {
+            movies.addMovie(movie);
+        }
 
         welcomeActions();
     }
@@ -86,6 +89,7 @@ public class MovieManagement {
                 break;
             case 2:
                 // removes movie
+                deleteMoviePrompt();
                 break;
             case 3:
                 registerMember();
@@ -122,12 +126,16 @@ public class MovieManagement {
                 break;
             case 3:
                 // Return a movie
+                returningPrompt(loggedInMember);
                 break;
             case 4:
                 // List current borrowed movie DVDs
+                loggedInMember.displayBorrowed();
+                memberActions(loggedInMember);
                 break;
             case 5:
                 // Display top 10 most popular movies
+                topTenMovies(loggedInMember);
                 break;
             case 0:
                 welcomeActions();
@@ -147,7 +155,7 @@ public class MovieManagement {
      * @return WelcomeMenu user selection int
      * @throws IOException
      */
-    private static int welcomeMenu() throws IOException {
+    private static Integer welcomeMenu() throws IOException {
         System.out.println("\n" +
                 "Welcome to the Community Library\n" +
                 "============Main Menu===========\n" +
@@ -156,11 +164,10 @@ public class MovieManagement {
                 "0. Exit\n " +
                 "================================\n");
 
-        Integer selection = checkSelection(0, 2);
+        Integer selection = checkSelection( 2);
 
         if (selection == null) welcomeActions();
         return selection;
-
     }
 
     /**
@@ -168,7 +175,7 @@ public class MovieManagement {
      * @return staffMenu user selection int
      * @throws IOException
      */
-    private static int staffMenu() throws IOException {
+    private static Integer staffMenu() throws IOException {
         System.out.println("\n" +
                 "============Staff Menu==========\n" +
                 "1. Add a new movie DVD\n" +
@@ -178,7 +185,7 @@ public class MovieManagement {
                 "0. Return to main menu\n" +
                 "================================\n");
 
-        Integer selection = checkSelection(0, 4);
+        Integer selection = checkSelection( 4);
         if (selection == null) staffActions();
         return selection;
     }
@@ -199,66 +206,15 @@ public class MovieManagement {
                 "0. Return to main menu\n" +
                 "================================\n");
 
-
-        Integer selection = checkSelection(0, 5);
+        Integer selection = checkSelection( 5);
         if (selection == null) memberActions(loggedInMember);
 
         return selection;
     }
 
     /*
-    ------------------------------------------------Other Methods-------------------------------------------------------
+    ------------------------------------------------Staff Related Methods-----------------------------------------------
      */
-
-    /**
-     * Prompts user to enter name of user who's phone number is required then prints number to screen
-     * before returning to staffActions()
-     */
-    public static void memberPhonePrompt() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String[] user = new String[2];
-        Integer phoneNumber = null;
-        System.out.print("Please enter member's first name: ");
-        user[0] = reader.readLine();
-        System.out.print("Please enter member's last name: ");
-        user[1] = reader.readLine();
-        phoneNumber = registeredMembers.getPhoneNumber(user[1]+user[0]);
-        if (phoneNumber != null) {
-            System.out.printf("%s %s's number is %d\n",user[0], user[1], phoneNumber);
-        } else {
-            System.out.println("Invalid User");
-        }
-        staffActions();
-    }
-
-    public static void borrowingPrompt(Member loggedInMember) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.println("Please enter the movie you wish to borrow: ");
-        String movieName = reader.readLine();
-        Movie borrowedMovie = movies.retrieveMovie(movieName);
-        if (borrowedMovie != null) {
-            if (loggedInMember.memberBorrows(borrowedMovie)){
-                System.out.printf("You have borrowed the movie %s\n", borrowedMovie.getTitle());
-            } else System.out.println("Movie unavailable");
-        } else System.out.println("Invalid movie name");
-        memberActions(loggedInMember);
-    }
-
-
-    /**
-     * Community Library Login prompt
-     * @return user supplied credentials in String array
-     * @throws IOException
-     */
-    private static String[] loginForm() throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        System.out.print("Enter username: ");
-        String username = reader.readLine();
-        System.out.print("Enter Password: ");
-        String password = reader.readLine();
-        String[] returnArray = {username, password};
-        return returnArray;
-    }
 
     /**
      * Registers member and calls registerMemberInfo unless they already exits. In which case
@@ -320,7 +276,7 @@ public class MovieManagement {
     public static void addMoviePrompt() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the movie title: ");
-        String movieName = reader.readLine();
+        String movieName = reader.readLine().trim();
         Movie newMovie = new Movie(movieName);
         if (!movies.addMovie(newMovie)) {
             System.out.print("Enter the number of copies you would like to add: ");
@@ -357,6 +313,88 @@ public class MovieManagement {
     }
 
     /**
+     * Prompts user to enter name of user who's phone number is required then prints number to screen
+     * before returning to staffActions()
+     */
+    public static void memberPhonePrompt() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String[] user = new String[2];
+        Integer phoneNumber = null;
+        System.out.print("Please enter member's first name: ");
+        user[0] = reader.readLine();
+        System.out.print("Please enter member's last name: ");
+        user[1] = reader.readLine();
+        phoneNumber = registeredMembers.getPhoneNumber(user[1]+user[0]);
+        if (phoneNumber != null) {
+            System.out.printf("%s %s's number is %d\n",user[0], user[1], phoneNumber);
+        } else {
+            System.out.println("Invalid User");
+        }
+        staffActions();
+    }
+
+    public static void deleteMoviePrompt() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter the name of the movie you wish to delete: ");
+        String movieName = reader.readLine();
+        Movie movie = new Movie(movieName);
+        if (movies.removeMovie(movie)) {
+            System.out.printf("The movie %s was deleted.\n", movieName);
+        } else System.out.println("Invalid movie name");
+        staffActions();
+    }
+
+    /*
+    ---------------------------------------------Member Related Method-------------------------------------------------
+     */
+
+    public static void topTenMovies(Member loggedInMember) throws IOException {
+        System.out.println("Top 10 Most Frequently Borrowed Movies: ");
+        String[] topTenMovieNames = movies.top10Borrowed();
+        for (String movieName : topTenMovieNames) {
+            if (movieName == null) break;
+            System.out.println(movies.retrieveMovie(movieName).toString());
+        }
+        memberActions(loggedInMember);
+    }
+
+    /**
+     * Return Movie prompt which removes provided movie from members borrowedMovie movieCollection by calling
+     * the membersReturned method which intern will increment the num borrows of the particular movie
+     * @param loggedInMember
+     * @throws IOException
+     */
+    public static void returningPrompt(Member loggedInMember) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter the movie you wish to return: ");
+        String movieName = reader.readLine();
+        Movie returnedMovie = loggedInMember.getBorrowedMovies().retrieveMovie(movieName);
+        if (returnedMovie != null) {
+            loggedInMember.memberReturns(returnedMovie);
+            System.out.printf("You returned the movie %s\n", returnedMovie.getTitle());
+        } else System.out.println("Invalid movie name");
+        memberActions(loggedInMember);
+    }
+
+    /**
+     * Prompts user to enter the movie they wish to
+     * @param loggedInMember
+     * @throws IOException
+     */
+    public static void borrowingPrompt(Member loggedInMember) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Please enter the movie you wish to borrow: ");
+        String movieName = reader.readLine();
+        Movie borrowedMovie = movies.retrieveMovie(movieName);
+        if (borrowedMovie != null) {
+            if (loggedInMember.memberBorrows(borrowedMovie)){
+                System.out.printf("You have borrowed the movie %s\n", borrowedMovie.getTitle());
+            } else System.out.println("Movie unavailable");
+        } else System.out.println("Invalid movie name");
+        memberActions(loggedInMember);
+    }
+
+    /**
      * Authenticates Community library users
      * @param userCreds String[] of users first name followed by their last
      * @return member if authenticated else returns null
@@ -375,19 +413,27 @@ public class MovieManagement {
         } else return null;
     }
 
+
+    /*
+    ------------------------------------------------Other Methods-------------------------------------------------------
+     */
+
     /**
      * Prints prompt and scans for user selection
      * @return Integer relating to the users selection
      */
-    private static Integer checkSelection(int startSelection, int endingSelection) {
-        Integer input;
-        System.out.printf(" Please make a selection (%d-%d, or 0 to return to main menu): ",
-                startSelection + 1, endingSelection);
+    private static Integer checkSelection(int endingSelection) {
+        Integer input = null;
+        while(input == null) {
+            System.out.printf(" Please make a selection (0-%d, or 0 to return to main menu): ",
+                    endingSelection);
+            input = returnDigit();
+        }
 
-        input = returnDigit();
-        if ((input < startSelection) || (input > endingSelection)) {
+        if ((input < 0) || (input > endingSelection)) {
             input = null;
             System.out.println("Invalid Selection");
+            checkSelection(endingSelection);
         }
 
         return input;
@@ -406,6 +452,20 @@ public class MovieManagement {
             System.out.println("Invalid number");
         }
         return input;
+    }
+
+    /**
+     * Community Library Login prompt
+     * @return user supplied credentials in String array
+     * @throws IOException
+     */
+    private static String[] loginForm() throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        System.out.print("Enter username: ");
+        String username = reader.readLine();
+        System.out.print("Enter Password: ");
+        String password = reader.readLine();
+        return new String[]{username, password};
     }
 
 }

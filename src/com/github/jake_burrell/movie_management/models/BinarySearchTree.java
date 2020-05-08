@@ -1,8 +1,5 @@
 package com.github.jake_burrell.movie_management.models;
 
-import com.github.jake_burrell.movie_management.Movie;
-import com.github.jake_burrell.movie_management.MovieCollection;
-
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -16,6 +13,10 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     private TreeNode<E> rootNode;
     private int numNodes;
 
+    public int getNumNodes() {
+        return numNodes;
+    }
+
     @Override
     public Iterator<E> iterator() {
         return new TreeIterator<>(rootNode, numNodes);
@@ -25,7 +26,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
      * Binary Search Tree Node
      * @param <T>
      */
-    private class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
+    protected class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
 
         private T nodeData;
         private TreeNode<T> leftNode;
@@ -48,6 +49,16 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             }
         }
 
+        protected void deleteChild(TreeNode<T> childNode) {
+            if (this.rightNode == childNode) this.rightNode = null;
+            else this.leftNode = null;
+        }
+
+        protected void replaceChild(TreeNode<T> oldChild, TreeNode<T> newChild) {
+            if (this.rightNode == oldChild) this.rightNode = newChild;
+            else this.leftNode = newChild;
+        }
+
 
         @Override
         public int compareTo(TreeNode<T> node) {
@@ -56,51 +67,60 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     }
 
     /**
-     * Iterates over the binary search tree in order
-     * @param <E>
+     * Iterates over the binary search tree in order.
+     * @param <F>
      */
 
-    private class TreeIterator<E extends Comparable<E>> implements Iterator<E> {
+    private class TreeIterator<F extends Comparable<F>> implements Iterator<F> {
 
-        private TreeNode<E> currentNode;
-        private TreeNode<E>[] nodesReturned;
-        private Stack<TreeNode<E>> previousNodes;
+        private TreeNode<F> currentNode;
+        private final TreeNode<F>[] nodesReturned;
+        private final Stack<TreeNode<F>> previousNodes;
         private int numNodesReturned;
         private int numNodes;
 
-        public TreeIterator(TreeNode<E> rootNode, int numNodes) {
+        /**
+         * Constructor for Binary Search Tree Iterator. It sets the currentNode to the leftmost TreeNode.
+         * @param rootNode Binary Search Tree root node.
+         * @param numNodes Number of nodes within Tree.
+         */
+        public TreeIterator(TreeNode<F> rootNode, int numNodes) {
             currentNode = rootNode;
             previousNodes = new Stack<>();
             numNodesReturned = 0;
             nodesReturned = new TreeNode[numNodes];
             this.numNodes = numNodes;
-            while (currentNode.leftNode != null) {
+            while (currentNode != null && currentNode.leftNode != null) {
                 previousNodes.push(currentNode);
                 currentNode = currentNode.leftNode;
             }
         }
 
+        /**
+         * Checks if a next node exists
+         * @return True when more nodes exist to be traversed
+         */
         @Override
         public boolean hasNext() {
             return (numNodes > 0);
         }
 
         /**
-         * @implNote Implements in order traversal non recursive
+         * @implNote Implements in-order traversal non recursive
          */
         @Override
-        public E next() {
-            E node = currentNode.nodeData;
+        public F next() {
+            F node = currentNode.nodeData;
             numNodesReturned++;
             nodesReturned[numNodesReturned -1] = currentNode;
             numNodes--;
-            if (currentNode.rightNode != null && !beenReturned(currentNode.rightNode)) {
+            if (currentNode.rightNode != null && notBeenReturned(currentNode.rightNode)) {
                 currentNode = currentNode.rightNode;
                 while (currentNode.leftNode != null) {
                     previousNodes.push(currentNode);
                     currentNode = currentNode.leftNode;
                 }
-            } else if (currentNode.leftNode != null && !beenReturned(currentNode.leftNode)) {
+            } else if (currentNode.leftNode != null && notBeenReturned(currentNode.leftNode)) {
                 currentNode = currentNode.leftNode;
             } else if (!previousNodes.empty() ) {
                 currentNode = previousNodes.pop();
@@ -108,13 +128,12 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             return node;
         }
 
-        private boolean beenReturned(TreeNode<E> checkNode) {
-            for (TreeNode<E> node : nodesReturned) {
-                if (node == checkNode) return true;
+        private boolean notBeenReturned(TreeNode<F> checkNode) {
+            for (TreeNode<F> node : nodesReturned) {
+                if (node == checkNode) return false;
             }
-            return false;
+            return true;
         }
-
     }
 
     /**
@@ -122,6 +141,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
      */
     public BinarySearchTree() {
         rootNode = new TreeNode<>(null);
+        numNodes = 0;
     }
 
     /**
@@ -156,32 +176,73 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Searches Binary Search Tree and then removes the given data from the Tree
-      * @param nodeData An object of some type that is stored in the Binary Search Tree
+     * @param nodeData An object of some type that is stored in the Binary Search Tree
+     * @return Returns true if the node existed otherwise returns false
      */
-    public void removeNode(E nodeData) {
+    public boolean removeNode(E nodeData) {
         numNodes--;
-        TreeNode<E> node = searchTreeNodes(nodeData);
-        removeNodeRecursive(node);
+        try {
+            TreeNode<E> node = searchTreeNodes(nodeData);
+            return removeNodeRecursive(node);
+        } catch (NullPointerException E) {
+            return false;
+        }
+
     }
 
-    public void removeNodeRecursive(TreeNode<E> node) {
-        if (node.rightNode == null &&  node.leftNode == null) {
-            node.nodeData = null;
-        } else if (node.leftNode == null) {
-            node.nodeData = node.rightNode.nodeData;
-        } else if (node.rightNode == null){
-            node.nodeData = node.leftNode.nodeData;
-        } else {
-            TreeNode<E> largestNode = searchLargest(node);
-            node.nodeData = largestNode.nodeData;
-            removeNodeRecursive(largestNode);
+    public boolean removeNodeRecursive(TreeNode<E> node) {
+        boolean removed = true;
+        try {
+            TreeNode<E> parentNode = returnParent(node);
+            // Check its not the root node
+            if (parentNode != null) {
+                if (node.rightNode == null &&  node.leftNode == null) {
+                    parentNode.deleteChild(node);
+                } else if (node.leftNode == null) {
+                    parentNode.replaceChild(node, node.rightNode);
+                } else if (node.rightNode == null){
+                    parentNode.replaceChild(node,node.leftNode);
+                } else {
+                    TreeNode<E> largestNode = searchLargest(node);
+                    parentNode.replaceChild(node,largestNode);
+                    removeNodeRecursive(largestNode);
+                }
+                // If there was only a single node
+            } else if (rootNode.leftNode == null && rootNode.rightNode == null ) {
+                rootNode = new TreeNode<>(null);
+            }
+            else if (rootNode.leftNode != null && rootNode.rightNode != null) {
+                TreeNode<E> tmpNode = rootNode;
+                rootNode = rootNode.leftNode;
+                rootNode.rightNode = tmpNode.rightNode;
+            }
+            else if (rootNode.leftNode == null) rootNode = rootNode.rightNode;
+            else rootNode = rootNode.leftNode;
+
+        } catch (NullPointerException E) {
+            removed = false;
         }
+        return removed;
+
     }
+
+    public TreeNode<E> returnParent(TreeNode<E> childNode) {
+        TreeNode<E> currentNode = rootNode;
+
+        while (currentNode.leftNode != childNode && currentNode.rightNode != childNode) {
+            if (currentNode.compareTo(childNode) >= 0) {
+                currentNode = currentNode.leftNode;
+            } else currentNode = currentNode.rightNode;
+            if (currentNode == null) break;
+        }
+        return currentNode;
+    }
+
 
     /**
-     * Searched for largest node in given sub tree
-     * @param rootNode The root node of a given subtree
-     * @return
+     * Searched for largest node in given sub tree static
+     * @param rootNode The root node of a given subtree.
+     * @return The largest node within given subtree.
      */
     public TreeNode<E> searchLargest(TreeNode<E> rootNode) {
         TreeNode<E> currentNode = rootNode;
@@ -204,7 +265,10 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         }
     }
 
-    private TreeNode<E> searchTreeNodes(E searchItem) {
+    /**
+     * @throws NullPointerException If provided with an invalid item
+     */
+    private TreeNode<E> searchTreeNodes(E searchItem) throws NullPointerException {
         TreeNode<E> searchNode = new TreeNode<>(searchItem);
         TreeNode<E> currentNode = rootNode;
 
@@ -226,19 +290,22 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     public static void main(String[] args) {
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
         tree.addNode(100);
-        //tree.addNode(50);
-        //tree.addNode(12);
-        //tree.addNode(1);
-        //tree.addNode(10);
-        tree.addNode(400);
-        tree.addNode(320);
-        tree.addNode(500);
-        tree.addNode(450);
-        tree.addNode(430);
-        //tree.addNode(20);
-        //tree.addNode(12);
-        tree.addNode(150);
-        System.out.println(tree.searchTree(0));
+         tree.addNode(50);
+//        tree.addNode(200);
+        tree.removeNode(100);
+        tree.addNode(12);
+//        tree.addNode(1);
+        tree.addNode(10);
+        tree.addNode(80);
+//        tree.addNode(400);
+//        tree.addNode(320);
+//        tree.addNode(500);
+//        tree.addNode(450);
+//        tree.addNode(430);
+//        tree.addNode(20);
+//        tree.addNode(12);
+//        tree.addNode(150);
+        //System.out.println(tree.searchTree(0));
 
         //System.out.println();
 
@@ -247,7 +314,17 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         }
         System.out.println("\n\n\n");
 
-        tree.removeNode(320);
+//        tree.removeNode(100);
+//        tree.addNode(100);
+//
+//        tree.removeNode(50);
+//        tree.addNode(50);
+//
+//        tree.removeNode(0);
+
+//        for (Integer num : tree) {
+//            System.out.println(tree.removeNode(num));
+//        }
 
         for (Integer number: tree) {
             System.out.println(number);

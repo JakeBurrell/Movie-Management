@@ -40,8 +40,8 @@ public class MemberCollection {
      */
     public Member getMember(String username) {
         Member retrievedMember = null;
-        for (int index = 0; index < members.length; index++) {
-            if (members[index].getUsername().equals(username)) retrievedMember = members[index];
+        for (Member member : members) {
+            if (member.getUsername().equals(username)) retrievedMember = member;
         }
         return retrievedMember;
     }
@@ -52,14 +52,11 @@ public class MemberCollection {
      * @return Returns true if member exists with associated username with memberCollection.
      */
     public boolean memberExists(String username) {
-        if(getMember(username) != null) return true;
-        else return false;
+        return getMember(username) != null;
     }
 
     public boolean checkPassword(String username, int password) {
-        if (memberExists(username) && (password == getPassword(username))) {
-            return true;
-        } else return false;
+        return memberExists(username) && (password == getPassword(username));
     }
 
     public int getPassword(String username) {
@@ -71,14 +68,14 @@ public class MemberCollection {
     /**
      *  Find a member's contact phone number
      * @param username The member's username who's phone number is to be found
-     * @return phoneNumber The member's phone number
-     * @throws NullPointerException If no phone number is found
+     * @return phoneNumber The member's phone number.
+     * @throws NullPointerException If no phone number is found.
      */
-    public int getPhoneNumber(String username) throws NullPointerException {
+    public Integer getPhoneNumber(String username) throws NullPointerException {
         Integer phoneNumber = null;
-        for (int index = 0; index < members.length; index++) {
-            if (members[index].getUsername().equals(username)) {
-                phoneNumber = members[index].phoneNumber;
+        for (Member member : members) {
+            if (member.getUsername().equals(username)) {
+                phoneNumber = member.phoneNumber;
             }
         }
         return phoneNumber;

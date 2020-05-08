@@ -9,12 +9,15 @@ import com.github.jake_burrell.movie_management.models.BinarySearchTree;
 
 public class MovieCollection {
 
+    // Property
     private BinarySearchTree<Movie> movies;
 
+    // Constructor
     public MovieCollection() {
         this.movies = new BinarySearchTree<>();
     }
 
+    //Getters
     public BinarySearchTree<Movie> getMovies() {
         return this.movies;
     }
@@ -35,7 +38,7 @@ public class MovieCollection {
     /**
      * Returns if the movie name exists within the movie collection
      * @param movie Movie potentially in MovieCollection
-     * @return
+     * @return True if movie exists
      */
     public boolean movieExist(Movie movie) {
         return movies.itemExists(movie);
@@ -66,7 +69,7 @@ public class MovieCollection {
     /**
      * Removes a movie from the MovieCollection if it exists
      * @param movie The movie to be deleted.
-     * @return
+     * @return True if movie was deleted
      */
     public boolean removeMovie(Movie movie){
         return movies.removeNode(movie);
@@ -78,47 +81,42 @@ public class MovieCollection {
     public String[] top10Borrowed() {
         BinarySearchTree<MoviePair> orderedMovies = new BinarySearchTree<>();
         String[] titleTopTen = new String[10];
+        // adds each movie to new search true
         for (Movie movie : movies) {
             MoviePair moviePair = new MoviePair(movie.getTitle(), movie.getNumBorrows());
             orderedMovies.addNode(moviePair);
         }
 
         int index = 0;
+        // Records first 10 most frequently borrowed movie's names to array
         for (MoviePair moviePair: orderedMovies) {
             titleTopTen[index] = moviePair.movieName;
             if (index == 10) break;
             index++;
         }
         return titleTopTen;
-
-//        int[] numBorrows = new int[10];
-//        String[] movieNames = new String[10];
-//        for (Movie movie: movies) {
-//            for (int index = 0; index < 10; index++) {
-//                if (movieNames[index] != null || movie.getNumBorrows() > numBorrows[index]) {
-//                    numBorrows[index] = movie.getNumBorrows();
-//                    movieNames[index] = movie.getTitle();
-//                }
-//            }
-//        }
-
     }
 
     /**
      * Class for storing movie names alongside their number of borrows. It also overrides the compareTo method so
-     * that MovieParis are ordered based on their num borrows in reverse order. This allows them to be inserted into
-     * the Binary Search Tree and then traverse the tree using ordered traversal thus returning a list of movies based
-     * on their numBorrows from most to least
+     * that MovieParis are ordered based on their num borrows in reverse order. This means when inserted into
+     * the Binary Search Tree. The tree can be traversed using in-order traversal thus returning a list of movies based
+     * on their numBorrows from most borrowed to least
      */
-    private class MoviePair implements Comparable<MoviePair>{
-        private String movieName;
-        private Integer numBorrows;
+    private static class MoviePair implements Comparable<MoviePair>{
+        private final String movieName;
+        private final Integer numBorrows;
 
         public MoviePair(String movieName, int numBorrows) {
             this.movieName = movieName;
             this.numBorrows = numBorrows;
         }
 
+        /**
+         * Allows MoviePairs to be compared inversely based on their numBorrows
+         * @param otherPair Pair that this instance is compared to
+         * @return 1 if this moviePar is compared to have less numBorrows, -1 more numBorrows than and 0 if equal
+         */
         @Override
         public int compareTo(MoviePair otherPair) {
             int numBorrows = this.numBorrows;
@@ -133,7 +131,4 @@ public class MovieCollection {
 
     }
 
-    public static void main(String[] args) {
-
-    }
 }

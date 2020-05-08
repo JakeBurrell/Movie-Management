@@ -20,7 +20,20 @@ import static com.github.jake_burrell.movie_management.MovieManagement.returnDig
 
 public class Movie implements Comparable<Movie> {
 
+    //Properties
+    private String title;
+    private String[] starring;
+    private String[] directors;
+    private Duration duration;
+    private Genre genre;
+    private Classification classification;
+    private int releaseDate;
+    private int copiesAvailable;
+    private int numBorrows;
 
+    /**
+     * Movie Classifications overriding the toString method.
+     */
     enum Classification {General {
         @Override
         public String toString() {
@@ -43,6 +56,10 @@ public class Movie implements Comparable<Movie> {
         }
     } }
 
+
+    /**
+     * Movie genres overriding the toString method where needed
+     */
     enum Genre {Drama, Adventure, Family, Action, SciFi {
         @Override
         public String toString() {
@@ -50,24 +67,44 @@ public class Movie implements Comparable<Movie> {
         }
     }, Comedy, Animation, Thriller, Other}
 
-    //Properties
-    private String title;
-    private String[] starring;
-    private String[] directors;
-    private Duration duration;
-    private Genre genre;
-    private Classification classification;
-    private int releaseDate;
-    private int copiesAvailable;
-    private int numBorrows;
-
+    // Constructor
     public Movie(String title) {
         this.title = title;
         numBorrows = 0;
     }
 
+    //Getters
     public String getTitle() {
         return this.title;
+    }
+
+    /**
+     * Allows Movies to be compared based on their title
+     * @param otherMovie Movie that this instance is compared to
+     * @return 1 if this movie is compared to be more then, -1 less than and 0 if equal
+     */
+    @Override
+    public int compareTo(Movie otherMovie) {
+        return this.title.compareTo(otherMovie.title);
+    }
+
+    /**
+     * Auto-Generated override from template
+     * Allows movies with the same title to be considered equal to one and other.
+     * @param o Movie to compare if equals to
+     * @return True if equals else returns false
+     */
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Movie movie = (Movie) o;
+        return title.equals(movie.title);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title);
     }
 
     public int getNumBorrows() {
@@ -78,6 +115,11 @@ public class Movie implements Comparable<Movie> {
         return this.copiesAvailable;
     }
 
+    /**
+     * Checks if their a copies available of particular movie. If so increments numBorrows and decrements
+     * copiesAvailable
+     * @return Returns true if and only if their where copies avalible
+     */
     public boolean movieBorrowed() {
         if(copiesAvailable > 0) {
             numBorrows++;
@@ -94,24 +136,21 @@ public class Movie implements Comparable<Movie> {
         this.title = title;
     }
 
-    public void addCopies(int numCopies) {
-        this.copiesAvailable += numCopies;
-    }
-
     public void setStarring(String[] actors) {
         this.starring = actors;
-    }
-
-
-    @Override
-    public int compareTo(Movie otherMovie) {
-        return this.title.compareTo(otherMovie.title);
     }
 
     public void setDirectors(String[] directors) {
         this.directors = directors;
     }
 
+    public void addCopies(int numCopies) {
+        this.copiesAvailable += numCopies;
+    }
+
+    /**
+     * Prompts user to select genre and then sets it.
+     */
     public void setGenre() {
         System.out.print("\n" +
                 "Select the genre:\n" +
@@ -161,6 +200,9 @@ public class Movie implements Comparable<Movie> {
         }
     }
 
+    /**
+     * Prompts user to provide classification and then sets it.
+     */
     public void setClassification() {
         System.out.print("\n" +
                 "Select the classification: \n" +
@@ -191,6 +233,9 @@ public class Movie implements Comparable<Movie> {
         }
     }
 
+    /**
+     * Prompts user to enter movie duration in minutes and then sets it
+     */
     public void setDuration() {
         System.out.print("Enter the duration (minutes): ");
         Integer minutes = returnDigit();
@@ -201,6 +246,9 @@ public class Movie implements Comparable<Movie> {
         } else this.duration = Duration.ofMinutes(minutes);
     }
 
+    /**
+     * Prompts user to enter movie releaseDate then sets it.
+     */
     public void setReleaseDate() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the release date (year): ");
@@ -212,6 +260,9 @@ public class Movie implements Comparable<Movie> {
         }
     }
 
+    /**
+     * Prompts user to set copies and then sets it
+     */
     public void setCopiesAvailable() {
         System.out.print("Enter the number of copies available: ");
         Integer copies = returnDigit();
@@ -223,6 +274,10 @@ public class Movie implements Comparable<Movie> {
         }
     }
 
+    /**
+     * Returns a string with all the movie information
+     * @return Formatted with movie information
+     */
     @Override
     public String toString(){
         String directorStr = Arrays.toString(directors);
@@ -243,23 +298,7 @@ public class Movie implements Comparable<Movie> {
 
     }
 
-    /**
-     * Auto-Generated override from template
-     * @param o
-     * @return
-     */
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Movie movie = (Movie) o;
-        return title.equals(movie.title);
-    }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(title);
-    }
 
     // For testing
     public static Movie[] hardCoddedMovies() {
@@ -367,7 +406,6 @@ public class Movie implements Comparable<Movie> {
 
         Movie[] movies = {movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8, movie9, movie10};
         return movies;
-
 
     }
 

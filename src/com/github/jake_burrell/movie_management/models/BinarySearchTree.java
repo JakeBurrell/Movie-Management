@@ -26,7 +26,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
      * Binary Search Tree Node
      * @param <T>
      */
-    protected class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
+    protected static class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
 
         private T nodeData;
         private TreeNode<T> leftNode;
@@ -71,7 +71,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
      * @param <F>
      */
 
-    private class TreeIterator<F extends Comparable<F>> implements Iterator<F> {
+    private static class TreeIterator<F extends Comparable<F>> implements Iterator<F> {
 
         private TreeNode<F> currentNode;
         private final TreeNode<F>[] nodesReturned;
@@ -106,6 +106,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         }
 
         /**
+         * BinarySearchTree Traversal
          * @implNote Implements in-order traversal non recursive
          */
         @Override
@@ -128,6 +129,11 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             return node;
         }
 
+        /**
+         * Returns true if nodes has already been returned
+         * @param checkNode The node to be checked if it has been returned
+         * @return True if and only if node has not previously been returned
+         */
         private boolean notBeenReturned(TreeNode<F> checkNode) {
             for (TreeNode<F> node : nodesReturned) {
                 if (node == checkNode) return false;
@@ -190,6 +196,11 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     }
 
+    /**
+     * Removes a given tree node from the BinarySearchTree
+     * @param node The node to be remove.
+     * @return Returns true if node removed successful. Unsuccessful if given tree node is null
+     */
     public boolean removeNodeRecursive(TreeNode<E> node) {
         boolean removed = true;
         try {
@@ -207,10 +218,11 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
                     parentNode.replaceChild(node,largestNode);
                     removeNodeRecursive(largestNode);
                 }
-                // If there was only a single node
+                // If there was only a single node in tree
             } else if (rootNode.leftNode == null && rootNode.rightNode == null ) {
                 rootNode = new TreeNode<>(null);
             }
+            // If the root being deleted had two subtrees
             else if (rootNode.leftNode != null && rootNode.rightNode != null) {
                 TreeNode<E> tmpNode = rootNode;
                 rootNode = rootNode.leftNode;
@@ -223,9 +235,13 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             removed = false;
         }
         return removed;
-
     }
 
+    /**
+     * Searches BinarySearchTree and returns a given tree nodes parent node.
+     * @param childNode The child node whose parent is being searched for.
+     * @return The parent node of the child being searched for.
+     */
     public TreeNode<E> returnParent(TreeNode<E> childNode) {
         TreeNode<E> currentNode = rootNode;
 
@@ -281,12 +297,16 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     }
 
-
-
+    /**
+     * Checks if a given item exists within the BinarySearchTree.
+     * @param checkItem The item to be search for.
+     * @return Returns true if item exists within tree.
+     */
     public boolean itemExists(E checkItem) {
         return (searchTree(checkItem) != null);
     }
 
+    // Some testing
     public static void main(String[] args) {
         BinarySearchTree<Integer> tree = new BinarySearchTree<>();
         tree.addNode(100);

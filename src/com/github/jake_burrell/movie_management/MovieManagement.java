@@ -3,7 +3,6 @@ package com.github.jake_burrell.movie_management;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.sql.SQLOutput;
 import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -25,14 +24,14 @@ public class MovieManagement {
     public static void main(String[] args) throws IOException {
 
         // Hard coded member
-        Member hardMember = new Member("Jake", "Burrell");
+        Member hardCoddedMember = new Member("Jake", "Burrell");
         String[] hardMemberInfo = {"address", "1234567890", "1234"};
-        registeredMembers.registerMember(hardMember);
-        hardMember.registerInfo(hardMemberInfo);
-        Movie[] testMovies = Movie.hardCoddedMovies();
-        for (Movie movie: testMovies) {
-            movies.addMovie(movie);
-        }
+        registeredMembers.registerMember(hardCoddedMember);
+        hardCoddedMember.registerInfo(hardMemberInfo);
+//        Movie[] testMovies = Movie.hardCoddedMovies();
+//        for (Movie movie: testMovies) {
+//            movies.addMovie(movie);
+//        }
 
         welcomeActions();
     }
@@ -43,7 +42,6 @@ public class MovieManagement {
 
     /**
      * Control actions from welcome menu
-     * @throws IOException
      */
 
     public static void welcomeActions() throws IOException {
@@ -78,7 +76,6 @@ public class MovieManagement {
 
     /**
      * Control staff actions from staffMenu
-     * @throws IOException
      */
 
     private static void staffActions() throws IOException {
@@ -109,7 +106,6 @@ public class MovieManagement {
     /**
      *  Control members actions from memberMenu
      * @param loggedInMember Currently, logged in Member
-     * @throws IOException
      */
 
     private static void memberActions(Member loggedInMember) throws IOException {
@@ -153,7 +149,6 @@ public class MovieManagement {
     /**
      * Displays welcome menu
      * @return WelcomeMenu user selection int
-     * @throws IOException
      */
     private static Integer welcomeMenu() throws IOException {
         System.out.println("\n" +
@@ -173,7 +168,6 @@ public class MovieManagement {
     /**
      * Displays StaffMenu
      * @return staffMenu user selection int
-     * @throws IOException
      */
     private static Integer staffMenu() throws IOException {
         System.out.println("\n" +
@@ -207,7 +201,10 @@ public class MovieManagement {
                 "================================\n");
 
         Integer selection = checkSelection( 5);
-        if (selection == null) memberActions(loggedInMember);
+        if (selection == null) {
+            memberActions(loggedInMember);
+            selection = 0;
+        }
 
         return selection;
     }
@@ -219,7 +216,6 @@ public class MovieManagement {
     /**
      * Registers member and calls registerMemberInfo unless they already exits. In which case
      * it calls staffActions()
-     * @throws IOException
      */
     public static void registerMember() throws IOException {
         String[] username = new String[2];
@@ -240,7 +236,6 @@ public class MovieManagement {
     /**
      * Promotes staff for additional member info then returns them to staffActions().
      * @param newMember A member to add info too.
-     * @throws IOException
      */
     public static void registerMemberInfo(Member newMember) throws IOException {
         String[] userData = new String[3];
@@ -271,7 +266,6 @@ public class MovieManagement {
 
     /**
      * Checks if movie already exists if so prompts for number of copies else calls addMovieInfo
-     * @throws IOException
      */
     public static void addMoviePrompt() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -292,7 +286,6 @@ public class MovieManagement {
     /**
      * Adds movie info to a particular Movie
      * @param movie Movie to add info to
-     * @throws IOException
      */
     public static void addMovieInfo(Movie movie) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -319,7 +312,7 @@ public class MovieManagement {
     public static void memberPhonePrompt() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String[] user = new String[2];
-        Integer phoneNumber = null;
+        Integer phoneNumber;
         System.out.print("Please enter member's first name: ");
         user[0] = reader.readLine();
         System.out.print("Please enter member's last name: ");
@@ -333,6 +326,9 @@ public class MovieManagement {
         staffActions();
     }
 
+    /**
+     * Prompts user to enter the name of the movie they wish to delete, checks if its a valid movie and then deletes it
+     */
     public static void deleteMoviePrompt() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         System.out.print("Enter the name of the movie you wish to delete: ");
@@ -348,6 +344,10 @@ public class MovieManagement {
     ---------------------------------------------Member Related Method-------------------------------------------------
      */
 
+    /**
+     * Prints the top 10 most frequently borrowed movies
+     * @param loggedInMember Member currently logged in
+     */
     public static void topTenMovies(Member loggedInMember) throws IOException {
         System.out.println("Top 10 Most Frequently Borrowed Movies: ");
         String[] topTenMovieNames = movies.top10Borrowed();
@@ -361,8 +361,7 @@ public class MovieManagement {
     /**
      * Return Movie prompt which removes provided movie from members borrowedMovie movieCollection by calling
      * the membersReturned method which intern will increment the num borrows of the particular movie
-     * @param loggedInMember
-     * @throws IOException
+     * @param loggedInMember Currently logged in member
      */
     public static void returningPrompt(Member loggedInMember) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -378,8 +377,7 @@ public class MovieManagement {
 
     /**
      * Prompts user to enter the movie they wish to
-     * @param loggedInMember
-     * @throws IOException
+     * @param loggedInMember Currently logged in member
      */
     public static void borrowingPrompt(Member loggedInMember) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -401,7 +399,7 @@ public class MovieManagement {
      */
     private static Member memberAuthenticate(String[] userCreds) throws IOException {
         String username = userCreds[0];
-        Integer password = null;
+        int password = 0;
         try {
             password = Integer.parseInt(userCreds[1]);
         } catch (NumberFormatException E) {
@@ -457,7 +455,6 @@ public class MovieManagement {
     /**
      * Community Library Login prompt
      * @return user supplied credentials in String array
-     * @throws IOException
      */
     private static String[] loginForm() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));

@@ -27,6 +27,10 @@ public class Member {
         borrowedMovies = new MovieCollection();
     }
 
+    /**
+     * Sets a registered members info
+     * @param memberInfo String array containing members info in the from of (address, phoneNumber, password)
+     */
     public void registerInfo(String[] memberInfo) {
         this.address = memberInfo[0];
         this.phoneNumber = Integer.parseInt(memberInfo[1]);

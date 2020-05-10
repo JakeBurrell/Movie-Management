@@ -58,6 +58,7 @@ public class MovieManagement {
                 }
                 break;
             case 2:
+                System.out.println("username: LastnameFirstname");
                 String[] userCreds = loginForm();
                 Member loggedInMember = memberAuthenticate(userCreds);
                 if (loggedInMember != null) memberActions(loggedInMember);
@@ -351,12 +352,11 @@ public class MovieManagement {
      */
     public static void topTenMovies(Member loggedInMember) throws IOException {
         System.out.println("Top 10 Most Frequently Borrowed Movies: ");
-        String[] topTenMovieNames = movies.top10Borrowed();
-        for (String movieName : topTenMovieNames) {
-            if (movieName == null) break;
+        MovieCollection.MoviePair[] topTenMovies = movies.top10Borrowed();
+        for (MovieCollection.MoviePair movie : topTenMovies) {
+            if (movie == null) break;
            // System.out.println(movies.retrieveMovie(movieName).toString());
-            System.out.println(movieName);
-            System.out.println(movies.retrieveMovie(movieName).getNumBorrows()+"\n");
+            System.out.printf("%s borrowed %s times.\n", movie.getMovieTitle(), movie.getNumBorrows() );
         }
         memberActions(loggedInMember);
     }

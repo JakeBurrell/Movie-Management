@@ -1,10 +1,12 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.20)  10 MAY 2020 00:48
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (MiKTeX 2.9.7140 64-bit) (preloaded format=pdflatex 2019.8.20)  10 MAY 2020 16:38
 entering extended mode
 **"C:/Users/Jake Burrell/Documents/Uni/2020/Algorithms and Complexity _ CAB301/
-CAB302_20_Community_Library_Application/Community_Library_Application.tex"
+Movie-Management/CAB302_20_Community_Library_Application/Community_Library_Appl
+ication.tex"
 
-("C:/Users/Jake Burrell/Documents/Uni/2020/Algorithms and Complexity _ CAB301/C
-AB302_20_Community_Library_Application/Community_Library_Application.tex"
+("C:/Users/Jake Burrell/Documents/Uni/2020/Algorithms and Complexity _ CAB301/M
+ovie-Management/CAB302_20_Community_Library_Application/Community_Library_Appli
+cation.tex"
 LaTeX2e <2018-12-01>
 
 ("C:\Users\Jake Burrell\AppData\Local\Programs\MiKTeX 2.9\tex/latex/base\articl
@@ -1036,11 +1038,11 @@ File: 5.png Graphic file (type png)
 <use 5.png>
 Package pdftex.def Info: 5.png  used on input line 153.
 (pdftex.def)             Requested size: 452.9679pt x 475.91628pt.
-<6.png, id=43, 608.2725pt x 648.92438pt>
+<6.png, id=43, 605.26125pt x 618.05907pt>
 File: 6.png Graphic file (type png)
 <use 6.png>
 Package pdftex.def Info: 6.png  used on input line 163.
-(pdftex.def)             Requested size: 452.9679pt x 483.25616pt.
+(pdftex.def)             Requested size: 452.9679pt x 462.55292pt.
 <7.png, id=44, 603.0028pt x 654.19406pt>
 File: 7.png Graphic file (type png)
 <use 7.png>
@@ -1076,28 +1078,58 @@ File: 13.png Graphic file (type png)
 <use 13.png>
 Package pdftex.def Info: 13.png  used on input line 227.
 (pdftex.def)             Requested size: 452.9679pt x 486.17378pt.
+<14.png, id=51, 602.25pt x 170.88844pt>
+File: 14.png Graphic file (type png)
+<use 14.png>
+Package pdftex.def Info: 14.png  used on input line 237.
+(pdftex.def)             Requested size: 452.9679pt x 128.53366pt.
+<15.png, id=52, 609.77812pt x 651.93562pt>
+File: 15.png Graphic file (type png)
+<use 15.png>
+Package pdftex.def Info: 15.png  used on input line 247.
+(pdftex.def)             Requested size: 452.9679pt x 484.30492pt.
+<16.png, id=53, 620.3175pt x 648.17157pt>
+File: 16.png Graphic file (type png)
+<use 16.png>
+Package pdftex.def Info: 16.png  used on input line 257.
+(pdftex.def)             Requested size: 452.9679pt x 473.30966pt.
+<17.png, id=54, 609.02531pt x 644.4075pt>
+File: 17.png Graphic file (type png)
+<use 17.png>
+Package pdftex.def Info: 17.png  used on input line 266.
+(pdftex.def)             Requested size: 452.9679pt x 479.29263pt.
+<18.png, id=55, 602.25pt x 651.93562pt>
+File: 18.png Graphic file (type png)
+<use 18.png>
+Package pdftex.def Info: 18.png  used on input line 275.
+(pdftex.def)             Requested size: 452.9679pt x 490.35313pt.
+<19.png, id=56, 603.75563pt x 605.26125pt>
+File: 19.png Graphic file (type png)
+<use 19.png>
+Package pdftex.def Info: 19.png  used on input line 284.
+(pdftex.def)             Requested size: 452.9679pt x 454.09258pt.
  [2 <./1.png>] [3 <./2.png>] [4 <./3.png>] [5 <./4.png>]
 [6 <./5.png>] [7 <./6.png>] [8 <./7.png>] [9 <./8.png>] [10 <./9.png>] [11 <./1
-0.png>] [12 <./11.png>] [13 <./12.png>] [14 <./13.png>]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 237.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 237.
-
+0.png>] [12 <./11.png>] [13 <./12.png>] [14 <./13.png>] [15 <./14.png>]
+[16 <./15.png>] [17 <./16.png>] [18 <./17.png>] [19 <./18.png>] [20 <./19.png>]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 293.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 293.
 (Community_Library_Application.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 237.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 237.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 293.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 293.
 Package rerunfilecheck Info: File `Community_Library_Application.out' has not c
 hanged.
 (rerunfilecheck)             Checksum: 27A3896318B61536819B856518197667;251.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 237.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 293.
  ) 
 Here is how much of TeX's memory you used:
- 22053 strings out of 492895
- 424271 string characters out of 3120464
- 519623 words of memory out of 3000000
- 25536 multiletter control sequences out of 15000+200000
+ 22095 strings out of 492895
+ 424862 string characters out of 3120464
+ 523625 words of memory out of 3000000
+ 25560 multiletter control sequences out of 15000+200000
  10749 words of font info for 40 fonts, out of 3000000 for 9000
  1141 hyphenation exceptions out of 8191
- 55i,11n,66p,852b,467s stack positions out of 5000i,500n,10000p,200000b,50000s
+ 55i,11n,66p,869b,467s stack positions out of 5000i,500n,10000p,200000b,50000s
 <C:/Users/Jake Burrell/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/a
 msfonts/cm/cmbx12.pfb><C:/Users/Jake Burrell/AppData/Local/Programs/MiKTeX 2.9/
 fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/Jake Burrell/AppData/Local/
@@ -1108,9 +1140,9 @@ sfonts/cm/cmr17.pfb><C:/Users/Jake Burrell/AppData/Local/Programs/MiKTeX 2.9/fo
 nts/type1/public/amsfonts/cm/cmr8.pfb><C:/Users/Jake Burrell/AppData/Local/Prog
 rams/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/Jake Burrel
 l/AppData/Local/Programs/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmti12.pfb>
-Output written on Community_Library_Application.pdf (15 pages, 829159 bytes).
+Output written on Community_Library_Application.pdf (21 pages, 1104780 bytes).
 PDF statistics:
- 153 PDF objects out of 1000 (max. 8388607)
- 32 named destinations out of 1000 (max. 500000)
- 107 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 194 PDF objects out of 1000 (max. 8388607)
+ 44 named destinations out of 1000 (max. 500000)
+ 137 words of extra memory for PDF output out of 10000 (max. 10000000)
 

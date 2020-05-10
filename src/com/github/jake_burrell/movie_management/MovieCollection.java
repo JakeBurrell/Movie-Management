@@ -78,9 +78,9 @@ public class MovieCollection {
     /**
      * Display the top 10 most frequently borrowed movies
      */
-    public String[] top10Borrowed() {
+    public MoviePair[] top10Borrowed() {
         BinarySearchTree<MoviePair> orderedMovies = new BinarySearchTree<>();
-        String[] titleTopTen = new String[10];
+        MoviePair[] titleTopTen = new MoviePair[10];
         // adds each movie to new search true
         for (Movie movie : movies) {
             MoviePair moviePair = new MoviePair(movie.getTitle(), movie.getNumBorrows());
@@ -92,7 +92,7 @@ public class MovieCollection {
         // Records first 10 most frequently borrowed movie's names to array
         for (MoviePair moviePair: orderedMovies) {
             if (index == 10) break;
-            titleTopTen[index] = moviePair.movieName;
+            titleTopTen[index] = moviePair;
             index++;
         }
         return titleTopTen;
@@ -104,7 +104,7 @@ public class MovieCollection {
      * the Binary Search Tree. The tree can be traversed using in-order traversal thus returning a list of movies based
      * on their numBorrows from most borrowed to least
      */
-    private static class MoviePair implements Comparable<MoviePair>{
+    public static class MoviePair implements Comparable<MoviePair>{
         private final String movieName;
         private final Integer numBorrows;
 
@@ -126,10 +126,13 @@ public class MovieCollection {
             else return 0;
         }
 
-        public String getMovieName() {
+        public String getMovieTitle() {
             return this.movieName;
         }
 
+        public Integer getNumBorrows() {
+            return numBorrows;
+        }
     }
 
 }

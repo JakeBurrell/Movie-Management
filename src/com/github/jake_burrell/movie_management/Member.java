@@ -47,8 +47,12 @@ public class Member {
      * @param borrowedMovie Movie that is being borrowed
      */
     public boolean memberBorrows(Movie borrowedMovie) {
-        if(borrowedMovie.movieBorrowable() && (!this.borrowedMovies.movieExist(borrowedMovie)) &&
-        this.borrowedMovies.getNumMovies() > 10) {
+        if((!this.borrowedMovies.movieExist(borrowedMovie)) && borrowedMovie.movieBorrowable()){
+            if (this.borrowedMovies.getNumMovies() >= 10) {
+                System.out.println("Too many borrowed movies.");
+                return false;
+            }
+            borrowedMovie.movieBorrow();
             this.borrowedMovies.addMovie(borrowedMovie);
             return true;
         } else return false;

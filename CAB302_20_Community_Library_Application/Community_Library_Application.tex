@@ -86,20 +86,20 @@
 \emph{//MoviePair comparable such that MoviePair objects with more borrows are seen as}\\
 \emph{//being less than those with less borrows}\\
 \emph{//Input: A Binary Search Tree of Movies}\\
-\emph{//Output: An array of movie names associated with the top ten movies}
+\emph{//Output: An array of MoviePair associated with the top ten Movies}
 \begin{algorithmic}[1]
-\State $\mathcal T[mp] \leftarrow \phi$ \emph{//Initialized BST of MoviePair with root null}
-\State $A[0..9] \leftarrow \phi$ \emph{//Initializes empty array of 10 items}
-\ForEach {$m \in \mathcal B $} \emph{//For each movie in the BST}
+\State $\mathcal T[mp] \leftarrow \emptyset $ \emph{//Initialized BST of MoviePair with root null}
+\State $A[0..9] \leftarrow \emptyset$ \emph{//Initializes empty array of 10 items}
+\ForEach {$m \in \mathcal B $} \emph{//For each Movie in the BST of Movies}
 	\State $mp \leftarrow m[m.name, m.borrows]$ 
 	\State $ \mathcal T[mp].addNode(mp)$
 \EndFor
 \State $i \leftarrow 0$
 \ForEach {$mp \in \mathcal T[mp]$}
 	\If {$i = 10$}
-		\State $break$
+		\State \textbf{break}
 	\EndIf
-	\State $A[i] = mp.name$
+	\State $A[i] \leftarrow mp$
 	\State $i \leftarrow i + 1$
 \EndFor
 \State \textbf{return} $A[0..9]$
@@ -232,14 +232,62 @@ Now returning to the main menu, then logging in as a member again and displaying
 \end{figure}
 
 
-
-
-\end{document}
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=1\textwidth]{14}
 \caption{Exiting}
 \medskip
 \small
-Now returning to the main menu again exiting the program by selecting 0 can be seen
+Now returning to the main menu again. It can be seen that by selecting 0 exiting the program displays that its exiting before closing.
 \end{figure}
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=1\textwidth]{15}
+\caption{Restarting the program with the following hard codded movie}
+\medskip
+\small
+The program was restarted and some movie where added as can be seen above
+\end{figure}
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=1\textwidth]{16}
+\caption{Restarting the program with the following hard codded moviec continued.}
+\medskip
+\small
+\end{figure}
+
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=1\textwidth]{17}
+\caption{Restarting the program with the following hard codded movie continued..}
+\medskip
+\small
+
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=1\textwidth]{18}
+\caption{Displaying the top 10 movies}
+\medskip
+\small
+From the member menu now the ability to display the top 10 most frequently borrowed movies. As can be seen above, it displays each movie name in order from most to least borrowed.
+\end{figure}
+
+\begin{figure}[!htb]
+\centering
+\includegraphics[width=1\textwidth]{19}
+\caption{Borrowing more then 10 movies}
+\medskip
+\small
+Now as can be seen above, a member that is logged in has borrowed 10 movies. Notice that when 2 is selected again and when they enter another movie it fails. The system then informs the user that they have borrowed too many movies since 10 is the limit.
+\end{figure}
+
+
+
+\end{document}

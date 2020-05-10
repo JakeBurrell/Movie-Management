@@ -116,17 +116,24 @@ public class Movie implements Comparable<Movie> {
     }
 
     /**
-     * Checks if their a copies available of particular movie. If so increments numBorrows and decrements
-     * copiesAvailable
+     * Checks if their a copies available of particular movie.
      * @return Returns true if and only if their where copies avalible
      */
     public boolean movieBorrowable() {
         if(copiesAvailable > 0) {
-            numBorrows++;
-            copiesAvailable--;
             return true;
         } else return false;
     }
+
+    /**
+     * Increments numBorrows and decrements copiesAvailable
+     * @throws Exception If movie not borrowable
+     */
+    public void movieBorrow() {
+        numBorrows++;
+        copiesAvailable--;
+    }
+
 
     public void movieReturned() {
         copiesAvailable++;

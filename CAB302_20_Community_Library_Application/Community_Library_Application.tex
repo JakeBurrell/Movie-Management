@@ -106,7 +106,7 @@
 \end{algorithmic}
 \end{algorithm}
 \section{Analysis of the Top 10 Algorithm}
-In examining the first for loop the either operation $mp \leftarrow m[m.name, m.borrows]$ or $ \mathcal T[mp].addNode(mp)$ could be consider the basic operations. These basic operations are in a for loop which iterates over each node in the input Binary Search Tree. Since the number of movies in the BST equates to the input size $n$ then the time complexity of the first for loop could be consider $c(n) = n$. Now since the second for loop contains a break within it that breaks after 10 iterations. Its complexity can therefore be considered a constant and does not need to be considered. Thus leaving the efficiency as $c(n) = n$ and the asymptotic efficiency class as $c(n) = \Theta(n)$.
+In examining the first for loop the either operation $mp \leftarrow m[m.name, m.borrows]$ or $ \mathcal T[mp].addNode(mp)$ could be consider the basic operations. These basic operations are in a for loop which iterates over each node in the input Binary Search Tree. Since the number of movies in the BST equates to the input size $n$ then the time complexity of the first for loop could be consider $c(n) = n$. Now since the second for loop contains a break within it that breaks after 10 iterations. Its complexity can therefore be considered a constant and does not need to be considered. Thus leaving the efficiency as $c(n) = n$ and the asymptotic efficiency class as $c(n) = \Theta(n)$. It has to be noted however, despite this all being said, the addNode function itself would not have be of constant time complexity. In fact the time complexity of addNode would at worst case of about $c(n) = \mathcal{O}(n)$. This is because n would relate closely to the general hight of tree. In general the taller the tree the more nodes need to be traversed before a valid spot can be found to add a new node. Since potentially in the worst case each consecutively added node could be for example smaller then every previous one. This situation would result in every node being needed to be traversed every add and thus result in the time complexity of $n$. Due to this, the entire algorithm which iterates over addNode a worst case of $n$ a total of $n$ number of times therefore has a time complexity of $c(n) = n^2$ in the worst case.
 
 \newpage
 
@@ -173,7 +173,7 @@ Using 0 to return to the main menu a user can then log in with as an existing st
 \caption{Displaying Movies Alphabetically}
 \medskip
 \small
-From the member menu a user can display movies by entering the number 1. As can be see each movie is displayed with all its information and in alphabetical order
+From the member menu a user can display movies by entering the number 1. As can be seen each movie is displayed with all its information and in alphabetical order.
 \end{figure}
 
 \begin{figure}[!htb]
@@ -182,7 +182,7 @@ From the member menu a user can display movies by entering the number 1. As can 
 \caption{Borrowing a movie}
 \medskip
 \small
-Once back a the staff menu that the user is returned to they can select 2 and enter the name of the movie they wish to borrow. Notice if the movie is a movie that has no copies available, such as Godzilla. The user is unable to borrow it.
+Once back at the staff menu that the user is returned, they can select 2 and enter the name of the movie they wish to borrow. Notice if the movie is a movie that has no copies available, such as Godzilla. The user is unable to borrow it.
 \end{figure}
 
 \begin{figure}[!htb]
@@ -200,7 +200,7 @@ Now notice that since Cast Away has now been borrowed their are now no longer an
 \caption{Listing borrowed movies}
 \medskip
 \small
-From the member menu it can be seen above that by entering 4 the member can view their borrowed movies. Notice that it lists the movie Cast Away then after returning the movie using 3 and entering the name again. It now states that they have no borrowed movies 
+From the member menu it can be seen above that by entering 4 the member can view their borrowed movies. Notice that it lists the movie Cast Away then after returning the movie using 3 and entering the name again. It now states that they have no borrowed movies.
 \end{figure}
 
 \begin{figure}[!htb]
@@ -219,7 +219,7 @@ Notice now that the movie Cast Away now has copies available since its been retu
 \caption{Deleting Movie}
 \medskip
 \small
-As seen above, entering zero returns the user to the main menu. Now a staff member logs in and by selecting 2 they are able to remove a movie Godzila
+As seen above, entering zero returns the user to the main menu. Now a staff member logs in and by selecting 2 they are able to remove a movie. In this case its Godzila
 \end{figure}
 
 \begin{figure}[!htb]
@@ -238,14 +238,14 @@ Now returning to the main menu, then logging in as a member again and displaying
 \caption{Exiting}
 \medskip
 \small
-Now returning to the main menu again. It can be seen that by selecting 0 exiting the program displays that its exiting before closing.
+Now returning to the main menu again. It can be seen that by selecting 0, the program displays that its exiting before closing.
 \end{figure}
 
 
 \begin{figure}[!htb]
 \centering
 \includegraphics[width=1\textwidth]{15}
-\caption{Restarting the program with the following hard codded movie}
+\caption{Restarting the program with the following hard codded movies}
 \medskip
 \small
 The program was restarted and some movie where added as can be seen above
@@ -276,7 +276,7 @@ The program was restarted and some movie where added as can be seen above
 \caption{Displaying the top 10 movies}
 \medskip
 \small
-From the member menu now the ability to display the top 10 most frequently borrowed movies. As can be seen above, it displays each movie name in order from most to least borrowed.
+From the member menu the ability to display the top 10 most frequently borrowed movies. As can be seen above, it displays each movie name in order from most to least borrowed.
 \end{figure}
 
 \begin{figure}[!htb]

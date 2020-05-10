@@ -75,9 +75,8 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     private static class TreeIterator<F extends Comparable<F>> implements Iterator<F> {
 
         private TreeNode<F> currentNode;
-        private final TreeNode<F>[] nodesReturned;
+        private final BinarySearchTree<TreeNode<F>> nodesReturned;
         private final Stack<TreeNode<F>> previousNodes;
-        private int numNodesReturned;
         private int numNodes;
 
         /**
@@ -88,8 +87,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         public TreeIterator(TreeNode<F> rootNode, int numNodes) {
             currentNode = rootNode;
             previousNodes = new Stack<>();
-            numNodesReturned = 0;
-            nodesReturned = new TreeNode[numNodes];
+            nodesReturned = new BinarySearchTree<>();
             this.numNodes = numNodes;
             while (currentNode != null && currentNode.leftNode != null) {
                 previousNodes.push(currentNode);
@@ -113,8 +111,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         @Override
         public F next() {
             F node = currentNode.nodeData;
-            numNodesReturned++;
-            nodesReturned[numNodesReturned -1] = currentNode;
+            nodesReturned.addNode(currentNode);
             numNodes--;
             if (currentNode.rightNode != null && notBeenReturned(currentNode.rightNode)) {
                 currentNode = currentNode.rightNode;
@@ -136,10 +133,10 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
          * @return True if and only if node has not previously been returned
          */
         private boolean notBeenReturned(TreeNode<F> checkNode) {
-            for (TreeNode<F> node : nodesReturned) {
-                if (node == checkNode) return false;
+            if (nodesReturned.searchTree(checkNode) == null) {
+                return true;
             }
-            return true;
+            else return false;
         }
     }
 
@@ -307,54 +304,5 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         return (searchTree(checkItem) != null);
     }
 
-    // Some testing
-    public static void main(String[] args) {
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-        tree.addNode(100);
-        tree.addNode(50);
-        tree.addNode(40);
-        tree.addNode(50);
-        tree.addNode(40);
-        tree.addNode(50);
-        tree.removeNode(100);
-        tree.addNode(12);
-        tree.addNode(1);
-        tree.addNode(10);
-        tree.addNode(80);
-        tree.addNode(400);
-        tree.addNode(320);
-        tree.addNode(500);
-        tree.addNode(450);
-        tree.addNode(430);
-        tree.addNode(20);
-        tree.addNode(12);
-        tree.addNode(150);
-        //System.out.println(tree.searchTree(0));
-
-        //System.out.println();
-
-        for (Integer number: tree) {
-            System.out.println(number);
-        }
-        System.out.println("\n\n\n");
-
-//        tree.removeNode(100);
-//        tree.addNode(100);
-//
-//        tree.removeNode(50);
-//        tree.addNode(50);
-//
-//        tree.removeNode(0);
-
-//        for (Integer num : tree) {
-//            System.out.println(tree.removeNode(num));
-//        }
-
-        for (Integer number: tree) {
-            System.out.println(number);
-        }
-
-
-    }
 }
 

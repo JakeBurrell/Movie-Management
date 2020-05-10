@@ -94,7 +94,7 @@
 	\State $mp \leftarrow m[m.name, m.borrows]$ 
 	\State $ \mathcal T[mp].addNode(mp)$
 \EndFor
-\State $i = 0$
+\State $i \leftarrow 0$
 \ForEach {$mp \in \mathcal T[mp]$}
 	\If {$i = 10$}
 		\State $break$

@@ -13,7 +13,7 @@ public class Member {
     protected int phoneNumber;
     // four digits
     protected int password;
-    private MovieCollection borrowedMovies;
+    private final MovieCollection borrowedMovies;
 
     public Member(String firstName, String lastName) {
         this.firstName = firstName;
@@ -22,8 +22,8 @@ public class Member {
     }
 
     public Member(String[] username) {
-        this.firstName = username[0];
-        this.lastName = username[1];
+        this.firstName = username[0].trim();
+        this.lastName = username[1].trim();
         borrowedMovies = new MovieCollection();
     }
 
@@ -35,7 +35,6 @@ public class Member {
         this.address = memberInfo[0];
         this.phoneNumber = Integer.parseInt(memberInfo[1]);
         this.password = Integer.parseInt(memberInfo[2]);
-        borrowedMovies = new MovieCollection();
     }
 
     public String getUsername() {
@@ -48,7 +47,8 @@ public class Member {
      * @param borrowedMovie Movie that is being borrowed
      */
     public boolean memberBorrows(Movie borrowedMovie) {
-        if(borrowedMovie.movieBorrowed() && (!this.borrowedMovies.movieExist(borrowedMovie))) {
+        if(borrowedMovie.movieBorrowable() && (!this.borrowedMovies.movieExist(borrowedMovie)) &&
+        this.borrowedMovies.getNumMovies() > 10) {
             this.borrowedMovies.addMovie(borrowedMovie);
             return true;
         } else return false;

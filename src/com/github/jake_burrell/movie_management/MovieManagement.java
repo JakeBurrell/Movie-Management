@@ -23,15 +23,16 @@ public class MovieManagement {
 
     public static void main(String[] args) throws IOException {
 
-        // Hard coded member
+        // Testing --------------------------------------------------------------------------------------------------
         Member hardCoddedMember = new Member("Jake", "Burrell");
         String[] hardMemberInfo = {"address", "1234567890", "1234"};
         registeredMembers.registerMember(hardCoddedMember);
         hardCoddedMember.registerInfo(hardMemberInfo);
-//        Movie[] testMovies = Movie.hardCoddedMovies();
-//        for (Movie movie: testMovies) {
-//            movies.addMovie(movie);
-//        }
+        Movie[] testMovies = Movie.hardCoddedMovies();
+        for (Movie movie: testMovies) {
+            movies.addMovie(movie);
+        }
+        //------------------------------------------------------------------------------------------------------------
 
         welcomeActions();
     }
@@ -353,7 +354,9 @@ public class MovieManagement {
         String[] topTenMovieNames = movies.top10Borrowed();
         for (String movieName : topTenMovieNames) {
             if (movieName == null) break;
-            System.out.println(movies.retrieveMovie(movieName).toString());
+           // System.out.println(movies.retrieveMovie(movieName).toString());
+            System.out.println(movieName);
+            System.out.println(movies.retrieveMovie(movieName).getNumBorrows()+"\n");
         }
         memberActions(loggedInMember);
     }

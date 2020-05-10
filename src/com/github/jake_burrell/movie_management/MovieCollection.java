@@ -85,13 +85,14 @@ public class MovieCollection {
         for (Movie movie : movies) {
             MoviePair moviePair = new MoviePair(movie.getTitle(), movie.getNumBorrows());
             orderedMovies.addNode(moviePair);
+
         }
 
         int index = 0;
         // Records first 10 most frequently borrowed movie's names to array
         for (MoviePair moviePair: orderedMovies) {
-            titleTopTen[index] = moviePair.movieName;
             if (index == 10) break;
+            titleTopTen[index] = moviePair.movieName;
             index++;
         }
         return titleTopTen;

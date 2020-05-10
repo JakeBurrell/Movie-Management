@@ -120,7 +120,7 @@ public class Movie implements Comparable<Movie> {
      * copiesAvailable
      * @return Returns true if and only if their where copies avalible
      */
-    public boolean movieBorrowed() {
+    public boolean movieBorrowable() {
         if(copiesAvailable > 0) {
             numBorrows++;
             copiesAvailable--;
@@ -299,7 +299,6 @@ public class Movie implements Comparable<Movie> {
     }
 
 
-
     // For testing
     public static Movie[] hardCoddedMovies() {
 
@@ -404,7 +403,18 @@ public class Movie implements Comparable<Movie> {
         movie10.copiesAvailable = 5;
         movie10.numBorrows = 10;
 
-        Movie[] movies = {movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8, movie9, movie10};
+
+        Movie movie11= new Movie("Movie11");
+        movie11.genre = Genre.Adventure;
+        movie11.starring = new String[]{"Actor, Actor 2"};
+        movie11.directors = new String[] { "Director, Director 3"};
+        movie11.duration = Duration.ofMinutes(70);
+        movie11.classification = Classification.MatureAccompanied;
+        movie11.releaseDate = 2015;
+        movie11.copiesAvailable = 15;
+        movie11.numBorrows = 5;
+
+        Movie[] movies = {movie1, movie2, movie3, movie4, movie5, movie6, movie7, movie8, movie9, movie10, movie11};
         return movies;
 
     }

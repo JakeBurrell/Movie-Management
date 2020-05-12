@@ -21,20 +21,27 @@ public class MovieManagement {
     private static final MemberCollection registeredMembers = new MemberCollection();
     private static final MovieCollection movies = new MovieCollection();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         // Testing --------------------------------------------------------------------------------------------------
-        Member hardCoddedMember = new Member("Jake", "Burrell");
+        Member testMember1 = new Member("Jake", "Burrell");
+        Member testMember = new Member("John", "Smith");
         String[] hardMemberInfo = {"address", "1234567890", "1234"};
-        registeredMembers.registerMember(hardCoddedMember);
-        hardCoddedMember.registerInfo(hardMemberInfo);
-        Movie[] testMovies = Movie.hardCoddedMovies();
-        for (Movie movie: testMovies) {
-            movies.addMovie(movie);
-        }
+        registeredMembers.registerMember(testMember1);
+        registeredMembers.registerMember(testMember);
+        testMember1.registerInfo(hardMemberInfo);
+        testMember.registerInfo(hardMemberInfo);
+//        Movie[] testMovies = Movie.hardCoddedMovies();
+//        for (Movie movie: testMovies) {
+//            movies.addMovie(movie);
+//        }
         //------------------------------------------------------------------------------------------------------------
 
-        welcomeActions();
+        try {
+            welcomeActions();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /*

@@ -1,14 +1,10 @@
 package com.github.jake_burrell.movie_management;
 
-import com.github.jake_burrell.movie_management.models.BinarySearchTree;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.Duration;
-import java.time.Year;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.Objects;
 
 import static com.github.jake_burrell.movie_management.MovieManagement.returnDigit;
@@ -120,14 +116,11 @@ public class Movie implements Comparable<Movie> {
      * @return Returns true if and only if their where copies avalible
      */
     public boolean movieBorrowable() {
-        if(copiesAvailable > 0) {
-            return true;
-        } else return false;
+        return copiesAvailable > 0;
     }
 
     /**
      * Increments numBorrows and decrements copiesAvailable
-     * @throws Exception If movie not borrowable
      */
     public void movieBorrow() {
         numBorrows++;

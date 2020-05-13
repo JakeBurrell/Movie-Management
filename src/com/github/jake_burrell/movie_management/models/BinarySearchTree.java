@@ -123,7 +123,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
                 }
             } else if (currentNode.leftNode != null && notBeenReturned(currentNode.leftNode)) {
                 currentNode = currentNode.leftNode;
-            } else if (!previousNodes.empty() ) {
+            } else if (!previousNodes.empty() && notBeenReturned(previousNodes.peek()) ) {
                 currentNode = previousNodes.pop();
             }
             return node;
@@ -143,6 +143,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
                 if (nodesReturned[index] == checkNode) {
                     return false;
                 } else if (nodesReturned[index].compareTo(checkNode) <= 0) break;
+                System.out.println("Index: " + index);
             }
             return true;
         }
@@ -318,6 +319,10 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         tree.addNode(100);
          tree.addNode(50);
         tree.addNode(200);
+        tree.addNode(30);
+        tree.addNode(35);
+        tree.addNode(32);
+        tree.addNode(32);
 //        tree.removeNode(100);
         tree.addNode(12);
 //        tree.addNode(1);
@@ -329,7 +334,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         tree.addNode(450);
         tree.addNode(430);
         tree.addNode(20);
-//        tree.addNode(12);
+        tree.addNode(12);
         tree.addNode(150);
         //System.out.println(tree.searchTree(0));
 

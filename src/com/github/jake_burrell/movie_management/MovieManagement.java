@@ -31,10 +31,10 @@ public class MovieManagement {
         registeredMembers.registerMember(testMember);
         testMember1.registerInfo(hardMemberInfo);
         testMember.registerInfo(hardMemberInfo);
-//        Movie[] testMovies = Movie.hardCoddedMovies();
-//        for (Movie movie: testMovies) {
-//            movies.addMovie(movie);
-//        }
+        Movie[] testMovies = Movie.hardCoddedMovies();
+        for (Movie movie: testMovies) {
+            movies.addMovie(movie);
+        }
         //------------------------------------------------------------------------------------------------------------
 
         try {

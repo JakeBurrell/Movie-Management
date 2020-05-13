@@ -75,9 +75,10 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     private static class TreeIterator<F extends Comparable<F>> implements Iterator<F> {
 
         private TreeNode<F> currentNode;
-        private final BinarySearchTree<TreeNode<F>> nodesReturned;
+        private final TreeNode[] nodesReturned;
         private final Stack<TreeNode<F>> previousNodes;
         private int numNodes;
+        public int numNodesReturned;
 
         /**
          * Constructor for Binary Search Tree Iterator. It sets the currentNode to the leftmost TreeNode.
@@ -87,7 +88,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         public TreeIterator(TreeNode<F> rootNode, int numNodes) {
             currentNode = rootNode;
             previousNodes = new Stack<>();
-            nodesReturned = new BinarySearchTree<>();
+            nodesReturned = new TreeNode[numNodes];
             this.numNodes = numNodes;
             while (currentNode != null && currentNode.leftNode != null) {
                 previousNodes.push(currentNode);
@@ -111,8 +112,9 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         @Override
         public F next() {
             F node = currentNode.nodeData;
-            nodesReturned.addNode(currentNode);
+            nodesReturned[numNodesReturned] = currentNode;
             numNodes--;
+            numNodesReturned++;
             if (currentNode.rightNode != null && notBeenReturned(currentNode.rightNode)) {
                 currentNode = currentNode.rightNode;
                 while (currentNode.leftNode != null) {
@@ -128,15 +130,21 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         }
 
         /**
-         * Returns true if nodes has already been returned
+         * Returns true if node has not already been returned. Searches array in reverse as when this method is called
+         * the most recently added nodes are more likely to match the checkNode. Additionally since the nodesReturned
+         * array stores nodes as they are iterated through, it must be in order. Therefore once the search reaches
+         * nodes that can be compared to be smaller then the checkNode. It can be determined that the checkNode does not
+         * exist within the array
          * @param checkNode The node to be checked if it has been returned
          * @return True if and only if node has not previously been returned
          */
         private boolean notBeenReturned(TreeNode<F> checkNode) {
-            if (nodesReturned.searchTree(checkNode) == null) {
-                return true;
+            for (int index = numNodesReturned - 1; index >= 0; index-- ) {
+                if (nodesReturned[index] == checkNode) {
+                    return false;
+                } else if (nodesReturned[index].compareTo(checkNode) <= 0) break;
             }
-            else return false;
+            return true;
         }
     }
 
@@ -304,5 +312,51 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         return (searchTree(checkItem) != null);
     }
 
+    // Some testing
+    public static void main(String[] args) {
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        tree.addNode(100);
+         tree.addNode(50);
+        tree.addNode(200);
+//        tree.removeNode(100);
+        tree.addNode(12);
+//        tree.addNode(1);
+        tree.addNode(10);
+        tree.addNode(80);
+        tree.addNode(400);
+        tree.addNode(320);
+        tree.addNode(500);
+        tree.addNode(450);
+        tree.addNode(430);
+        tree.addNode(20);
+//        tree.addNode(12);
+        tree.addNode(150);
+        //System.out.println(tree.searchTree(0));
+
+        //System.out.println();
+
+        for (Integer number: tree) {
+            System.out.println(number);
+        }
+        System.out.println("\n\n\n");
+
+//        tree.removeNode(100);
+//        tree.addNode(100);
+//
+//        tree.removeNode(50);
+//        tree.addNode(50);
+//
+//        tree.removeNode(0);
+
+//        for (Integer num : tree) {
+//            System.out.println(tree.removeNode(num));
+//        }
+
+        for (Integer number: tree) {
+            System.out.println(number);
+        }
+
+
+    }
 }
 

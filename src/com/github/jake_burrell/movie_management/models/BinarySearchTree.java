@@ -123,7 +123,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
                 }
             } else if (currentNode.leftNode != null && notBeenReturned(currentNode.leftNode)) {
                 currentNode = currentNode.leftNode;
-            } else if (!previousNodes.empty() && notBeenReturned(previousNodes.peek()) ) {
+            } else if (!previousNodes.empty()) {
                 currentNode = previousNodes.pop();
             }
             return node;
@@ -142,8 +142,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             for (int index = numNodesReturned - 1; index >= 0; index-- ) {
                 if (nodesReturned[index] == checkNode) {
                     return false;
-                } else if (nodesReturned[index].compareTo(checkNode) <= 0) break;
-                System.out.println("Index: " + index);
+                } else if (nodesReturned[index].compareTo(checkNode) < 0) break;
             }
             return true;
         }
@@ -313,55 +312,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         return (searchTree(checkItem) != null);
     }
 
-    // Some testing
-    public static void main(String[] args) {
-        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
-        tree.addNode(100);
-         tree.addNode(50);
-        tree.addNode(200);
-        tree.addNode(30);
-        tree.addNode(35);
-        tree.addNode(32);
-        tree.addNode(32);
-//        tree.removeNode(100);
-        tree.addNode(12);
-//        tree.addNode(1);
-        tree.addNode(10);
-        tree.addNode(80);
-        tree.addNode(400);
-        tree.addNode(320);
-        tree.addNode(500);
-        tree.addNode(450);
-        tree.addNode(430);
-        tree.addNode(20);
-        tree.addNode(12);
-        tree.addNode(150);
-        //System.out.println(tree.searchTree(0));
-
-        //System.out.println();
-
-        for (Integer number: tree) {
-            System.out.println(number);
-        }
-        System.out.println("\n\n\n");
-
-//        tree.removeNode(100);
-//        tree.addNode(100);
-//
-//        tree.removeNode(50);
-//        tree.addNode(50);
-//
-//        tree.removeNode(0);
-
-//        for (Integer num : tree) {
-//            System.out.println(tree.removeNode(num));
-//        }
-
-        for (Integer number: tree) {
-            System.out.println(number);
-        }
-
-
-    }
+   
 }
 

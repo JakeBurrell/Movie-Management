@@ -8,7 +8,7 @@ import java.util.Random;
 
 public class TestBST {
     BinarySearchTree<Integer> numbers;
-    final int INPUT_SIZE = 100_000;
+    final int INPUT_SIZE = 100_000_000;
     int[] numbersArray;
 
     @Test

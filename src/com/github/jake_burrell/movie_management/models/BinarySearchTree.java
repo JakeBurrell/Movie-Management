@@ -27,7 +27,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Binary Search Tree Node
-     *
      * @param <T>
      */
     protected static class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
@@ -55,7 +54,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Deletes the provided child node from thisTreeNode
-         *
          * @param childNode The child node to be delete.
          */
         protected void deleteChild(TreeNode<T> childNode) {
@@ -65,7 +63,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Replaces one child with a new child
-         *
          * @param oldChild The child node to be replaced
          * @param newChild The child node to replacing the oldChild
          */
@@ -76,7 +73,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Each node comparable such that they are compareTo be equal if their nodeData is the same
-         *
          * @param node The node this one is compared to
          */
         @Override
@@ -87,7 +83,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Iterates over the binary search tree in order.
-     *
      * @param <F>
      */
 
@@ -101,7 +96,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Constructor for Binary Search Tree Iterator. It sets the currentNode to the leftmost TreeNode.
-         *
          * @param rootNode Binary Search Tree root node.
          * @param numNodes Number of nodes within Tree.
          */

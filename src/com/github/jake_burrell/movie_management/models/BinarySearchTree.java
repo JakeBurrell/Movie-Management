@@ -207,7 +207,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
      * @param node The node to be remove.
      * @return Returns true if node removed successful. Unsuccessful if given tree node is null
      */
-    public boolean removeNodeRecursive(TreeNode<E> node) {
+    protected boolean removeNodeRecursive(TreeNode<E> node) {
         boolean removed = true;
         try {
             TreeNode<E> parentNode = returnParent(node);
@@ -312,6 +312,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         return (searchTree(checkItem) != null);
     }
 
-   
+
 }
 

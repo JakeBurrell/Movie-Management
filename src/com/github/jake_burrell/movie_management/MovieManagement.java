@@ -362,7 +362,6 @@ public class MovieManagement {
         MovieCollection.MoviePair[] topTenMovies = movies.top10Borrowed();
         for (MovieCollection.MoviePair movie : topTenMovies) {
             if (movie == null) break;
-           // System.out.println(movies.retrieveMovie(movieName).toString());
             System.out.printf("%s borrowed %s times.\n", movie.getMovieTitle(), movie.getNumBorrows() );
         }
         memberActions(loggedInMember);

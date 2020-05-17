@@ -76,12 +76,12 @@ public class MovieCollection {
     }
 
     /**
-     * Display the top 10 most frequently borrowed movies
+     * Returns the top 10 most frequently borrowed movies as a MoviePair[]
      */
     public MoviePair[] top10Borrowed() {
         BinarySearchTree<MoviePair> orderedMovies = new BinarySearchTree<>();
         MoviePair[] titleTopTen = new MoviePair[10];
-        // adds each movie to new search true
+        // adds each movie to new BST
         for (Movie movie : movies) {
             MoviePair moviePair = new MoviePair(movie.getTitle(), movie.getNumBorrows());
             orderedMovies.addNode(moviePair);

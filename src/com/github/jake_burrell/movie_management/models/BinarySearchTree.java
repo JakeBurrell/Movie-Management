@@ -152,6 +152,17 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             }
             return true;
         }
+
+        /**
+         * Left this in just to just to demonstrate the advantages of the above algorithm
+         * @see TestBST#testIterator() With an input size of 100_000 this takes about 10 times longer to run.
+         */
+//        private boolean notBeenReturned(TreeNode<F> checkNode) {
+//            for (TreeNode<F> node : nodesReturned) {
+//                if( node == checkNode) return  false;
+//            }
+//            return true;
+//        }
     }
 
     /**

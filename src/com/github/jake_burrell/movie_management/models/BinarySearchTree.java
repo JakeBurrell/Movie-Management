@@ -52,29 +52,18 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             }
         }
 
-        /**
-         * Deletes the provided child node from thisTreeNode
-         * @param childNode The child node to be delete.
-         */
+
         protected void deleteChild(TreeNode<T> childNode) {
             if (this.rightNode == childNode) this.rightNode = null;
             else this.leftNode = null;
         }
 
-        /**
-         * Replaces one child with a new child
-         * @param oldChild The child node to be replaced
-         * @param newChild The child node to replacing the oldChild
-         */
         protected void replaceChild(TreeNode<T> oldChild, TreeNode<T> newChild) {
             if (this.rightNode == oldChild) this.rightNode = newChild;
             else this.leftNode = newChild;
         }
 
-        /**
-         * Each node comparable such that they are compareTo be equal if their nodeData is the same
-         * @param node The node this one is compared to
-         */
+
         @Override
         public int compareTo(TreeNode<T> node) {
             return this.nodeData.compareTo(node.nodeData);
@@ -147,14 +136,19 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         }
 
         /**
-         * Returns true if nodes has already been returned
-         *
+         * Returns true if node has not already been returned. Searches array in reverse as when this method is called
+         * the most recently added nodes are more likely to match the checkNode. Additionally since the nodesReturned
+         * array stores nodes as they are iterated through, it must be in order. Therefore once the search reaches
+         * nodes that can be compared to be smaller then the checkNode. It can be determined that the checkNode does not
+         * exist within the array
          * @param checkNode The node to be checked if it has been returned
          * @return True if and only if node has not previously been returned
          */
         private boolean notBeenReturned(TreeNode<F> checkNode) {
-            for (TreeNode<F> node : nodesReturned) {
-                if (node == checkNode) return false;
+            for (int index = numNodesReturned - 1; index >= 0; index-- ) {
+                if (nodesReturned[index] == checkNode) {
+                    return false;
+                } else if (nodesReturned[index].compareTo(checkNode) < 0) break;
             }
             return true;
         }

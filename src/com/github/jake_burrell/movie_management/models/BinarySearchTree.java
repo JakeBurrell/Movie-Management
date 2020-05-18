@@ -27,6 +27,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Binary Search Tree Node
+     *
      * @param <T>
      */
     protected static class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
@@ -72,6 +73,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Iterates over the binary search tree in order.
+     *
      * @param <F>
      */
 
@@ -85,6 +87,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Constructor for Binary Search Tree Iterator. It sets the currentNode to the leftmost TreeNode.
+         *
          * @param rootNode Binary Search Tree root node.
          * @param numNodes Number of nodes within Tree.
          */
@@ -141,11 +144,12 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
          * array stores nodes as they are iterated through, it must be in order. Therefore once the search reaches
          * nodes that can be compared to be smaller then the checkNode. It can be determined that the checkNode does not
          * exist within the array
+         *
          * @param checkNode The node to be checked if it has been returned
          * @return True if and only if node has not previously been returned
          */
         private boolean notBeenReturned(TreeNode<F> checkNode) {
-            for (int index = numNodesReturned - 1; index >= 0; index-- ) {
+            for (int index = numNodesReturned - 1; index >= 0; index--) {
                 if (nodesReturned[index] == checkNode) {
                     return false;
                 } else if (nodesReturned[index].compareTo(checkNode) < 0) break;
@@ -155,7 +159,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Left this in just to just to demonstrate the advantages of the above algorithm
-         * @see TestBST#testIterator() With an input size of 100_000 this takes about 10 times longer to run.
+         * @see TestBST#testIterator() With an input size of 100_000 this takes a bit over 10 times longer to run.
          */
 //        private boolean notBeenReturned(TreeNode<F> checkNode) {
 //            for (TreeNode<F> node : nodesReturned) {
@@ -210,55 +214,43 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
      * @return Returns true if the node existed otherwise returns false
      */
     public boolean removeNode(E nodeData) {
-        numNodes--;
         try {
-            TreeNode<E> node = searchTreeNodes(nodeData);
-            return removeNodeRecursive(node);
+            if (itemExists(nodeData)) {
+                removeNodeRecursive(this.rootNode, nodeData);
+                numNodes--;
+                return true;
+            } else return false;
         } catch (NullPointerException E) {
             return false;
         }
-
     }
 
     /**
      * Removes a given tree node from the BinarySearchTree
      *
-     * @param node The node to be remove.
-     * @return Returns true if node removed successful. Unsuccessful if given tree node is null
+     * @param root     The root node of the tree currently attempting to remove node from
+     * @param nodeData The node to be remove.
      */
-    public boolean removeNodeRecursive(TreeNode<E> node) {
-        boolean removed = true;
-        try {
-            TreeNode<E> parentNode = returnParent(node);
-            // Check its not the root node
-            if (parentNode != null) {
-                if (node.rightNode == null && node.leftNode == null) {
-                    parentNode.deleteChild(node);
-                } else if (node.leftNode == null) {
-                    parentNode.replaceChild(node, node.rightNode);
-                } else if (node.rightNode == null) {
-                    parentNode.replaceChild(node, node.leftNode);
-                } else {
-                    TreeNode<E> largestNode = searchLargest(node);
-                    parentNode.replaceChild(node, largestNode);
-                    removeNodeRecursive(largestNode);
-                }
-                // If there was only a single node in tree
-            } else if (rootNode.leftNode == null && rootNode.rightNode == null) {
-                rootNode = new TreeNode<>(null);
+    public TreeNode<E> removeNodeRecursive(TreeNode<E> root, E nodeData) {
+        if (root == null) return null;
+        if (nodeData.compareTo(root.nodeData) < 0) {
+            root.leftNode = removeNodeRecursive(root.leftNode, nodeData);
+        } else if (nodeData.compareTo(root.nodeData) > 0) {
+            root.rightNode = removeNodeRecursive(root.rightNode, nodeData);
+        } else if (nodeData.equals(root.nodeData)) {
+            if (root.rightNode == null && root.leftNode == null) {
+                return null;
+            } else if (root.leftNode == null) {
+                return root.rightNode;
+            } else if (root.rightNode == null) {
+                return root.leftNode;
+            } else {
+                TreeNode<E> largestNode = searchLargest(root.leftNode);
+                root.nodeData = largestNode.nodeData;
+                root.leftNode = removeNodeRecursive(root.leftNode, largestNode.nodeData);
             }
-            // If the root being deleted had two subtrees
-            else if (rootNode.leftNode != null && rootNode.rightNode != null) {
-                TreeNode<E> tmpNode = rootNode;
-                rootNode = rootNode.leftNode;
-                rootNode.rightNode = tmpNode.rightNode;
-            } else if (rootNode.leftNode == null) rootNode = rootNode.rightNode;
-            else rootNode = rootNode.leftNode;
-
-        } catch (NullPointerException E) {
-            removed = false;
         }
-        return removed;
+        return root;
     }
 
     /**
@@ -311,7 +303,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     /**
      * Searches for a particular item in
      *
-     * @throws NullPointerException If provided with an invalid item
+     * @throws NullPointerException If provided with an invalid item.
      */
     private TreeNode<E> searchTreeNodes(E searchItem) throws NullPointerException {
         TreeNode<E> searchNode = new TreeNode<>(searchItem);

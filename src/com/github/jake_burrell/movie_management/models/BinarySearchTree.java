@@ -27,7 +27,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Binary Search Tree Node
-     *
      * @param <T>
      */
     protected static class TreeNode<T extends Comparable<T>> implements Comparable<TreeNode<T>> {
@@ -53,18 +52,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             }
         }
 
-
-        protected void deleteChild(TreeNode<T> childNode) {
-            if (this.rightNode == childNode) this.rightNode = null;
-            else this.leftNode = null;
-        }
-
-        protected void replaceChild(TreeNode<T> oldChild, TreeNode<T> newChild) {
-            if (this.rightNode == oldChild) this.rightNode = newChild;
-            else this.leftNode = newChild;
-        }
-
-
         @Override
         public int compareTo(TreeNode<T> node) {
             return this.nodeData.compareTo(node.nodeData);
@@ -73,7 +60,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Iterates over the binary search tree in order.
-     *
      * @param <F>
      */
 
@@ -87,7 +73,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Constructor for Binary Search Tree Iterator. It sets the currentNode to the leftmost TreeNode.
-         *
          * @param rootNode Binary Search Tree root node.
          * @param numNodes Number of nodes within Tree.
          */
@@ -105,7 +90,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Checks if a next node exists
-         *
          * @return True when more nodes exist to be traversed
          */
         @Override
@@ -115,7 +99,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * BinarySearchTree Traversal
-         *
          * @implNote Implements in-order traversal non recursive
          */
         @Override
@@ -157,7 +140,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             return true;
         }
 
-        /**
+        /*
          * Left this in just to just to demonstrate the advantages of the above algorithm
          * @see TestBST#testIterator() With an input size of 100_000 this takes a bit over 10 times longer to run.
          */
@@ -179,7 +162,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Adds a node to the Binary Search tree
-     *
      * @param nodeData Node to be added to Binary search tree
      */
     public void addNode(E nodeData) {
@@ -209,7 +191,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Searches Binary Search Tree and then removes the given data from the Tree
-     *
      * @param nodeData An object of some type that is stored in the Binary Search Tree
      * @return Returns true if the node existed otherwise returns false
      */
@@ -227,8 +208,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Removes a given tree node from the BinarySearchTree
-     *
-     * @param root     The root node of the tree currently attempting to remove node from
+     * @param root  The root node of the tree currently attempting to remove node from
      * @param nodeData The node to be remove.
      */
     public TreeNode<E> removeNodeRecursive(TreeNode<E> root, E nodeData) {
@@ -255,7 +235,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Searches BinarySearchTree and returns a given tree nodes parent node.
-     *
      * @param childNode The child node whose parent searched for.
      * @return If parent node of the child searched is found it returns the parent else null.
      */
@@ -274,7 +253,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Searched for largest node in given sub tree static
-     *
      * @param rootNode The root node of a given subtree.
      * @return The largest node within given subtree.
      */
@@ -288,7 +266,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Search for item within binary search tree returning the item if its found otherwise it returns null
-     *
      * @param searchItem Item to search for within the search tree
      * @return Returns the item when found otherwise it returns null
      */
@@ -302,7 +279,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Searches for a particular item in
-     *
      * @throws NullPointerException If provided with an invalid item.
      */
     private TreeNode<E> searchTreeNodes(E searchItem) throws NullPointerException {
@@ -320,7 +296,6 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Checks if a given item exists within the BinarySearchTree.
-     *
      * @param checkItem The item to be search for.
      * @return Returns true if item exists within tree.
      */

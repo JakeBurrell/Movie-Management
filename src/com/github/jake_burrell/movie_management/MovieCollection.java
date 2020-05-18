@@ -71,7 +71,7 @@ public class MovieCollection {
      * @param movie The movie to be deleted.
      * @return True if movie was deleted
      */
-    public boolean removeMovie(Movie movie){
+    public boolean removeMovie(Movie movie) {
         return movies.removeNode(movie);
     }
 
@@ -99,7 +99,7 @@ public class MovieCollection {
     }
 
     /**
-     * Class for storing movie names alongside their number of borrows. It also overrides the compareTo method so
+     * Class for storing movie names alongside their number of borrows. It also overrides the compareTo method such
      * that MovieParis are ordered based on their num borrows in reverse order. This means when inserted into
      * the Binary Search Tree. The tree can be traversed using in-order traversal thus returning a list of movies based
      * on their numBorrows from most borrowed to least

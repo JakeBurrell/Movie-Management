@@ -55,10 +55,19 @@ public class MemberCollection {
         return getMember(username) != null;
     }
 
+    /**
+     * Checks that the provided username and password are valid
+     * @return True if the username and password both match a valid member
+     */
     public boolean checkPassword(String username, int password) {
         return memberExists(username) && (password == getPassword(username));
     }
 
+    /**
+     * Retrieves the password for the username provided
+     * @param username A members username
+     * @return The members password in the form of a 4digit int
+     */
     public int getPassword(String username) {
         Integer password = null;
         password = getMember(username).password;

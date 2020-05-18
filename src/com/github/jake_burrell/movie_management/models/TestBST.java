@@ -8,9 +8,9 @@ import java.util.Random;
 
 public class TestBST {
     BinarySearchTree<Integer> numbers;
-    final int INPUT_SIZE = 100_000;
+    final int INPUT_SIZE = 1_000_000;
     final int RANGE = 1_000;
-    int numbersRemoved = 100_000;
+    int numbersRemoved = 1_000_000;
     ArrayList<Integer> removedNumbers;
     int[] numbersArray;
     int[] numbersLeftArray;
@@ -51,7 +51,20 @@ public class TestBST {
     }
 
     @Test
-    public void testRemoveNode() {
+    public void removeFromEmpty() {
+        BinarySearchTree<Integer> tree = new BinarySearchTree<>();
+        assertFalse(tree.removeNode(2));
+        tree.addNode(10);
+        assertTrue(tree.removeNode(10));
+        assertFalse(tree.itemExists(10));
+        tree.removeNode(10);
+        assertFalse(tree.removeNode(10));
+        tree.addNode(10);
+        assertFalse(tree.removeNode(11));
+    }
+
+    @Test
+    public void testRemoveNode() throws Exception {
 
         for(int number : removedNumbers) {
             numbers.removeNode(number);

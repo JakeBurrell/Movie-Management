@@ -40,7 +40,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
         /**
          * Swaps node with its left child node
-         **/
+         */
         public void leftNodeSwap() {
             if (this.leftNode != null) {
                 T tmpData = this.nodeData;
@@ -194,7 +194,13 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     public boolean removeNode(E nodeData) {
         try {
             if (itemExists(nodeData)) {
-                removeNodeRecursive(this.rootNode, nodeData);
+                if (removeNodeRecursive(this.rootNode, nodeData) == null) {
+                    if (nodeData.equals(rootNode.nodeData)) {
+                        rootNode = new TreeNode<>(null);
+                        numNodes--;
+                        return true;
+                    }
+                }
                 numNodes--;
                 return true;
             } else return false;
@@ -205,29 +211,29 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
     /**
      * Removes a given tree node from the BinarySearchTree
-     * @param root  The root node of the tree currently attempting to remove node from
+     * @param rootNode  The root node of the tree currently attempting to remove node from
      * @param nodeData The node to be remove.
      */
-    public TreeNode<E> removeNodeRecursive(TreeNode<E> root, E nodeData) {
-        if (root == null) return null;
-        if (nodeData.compareTo(root.nodeData) < 0) {
-            root.leftNode = removeNodeRecursive(root.leftNode, nodeData);
-        } else if (nodeData.compareTo(root.nodeData) > 0) {
-            root.rightNode = removeNodeRecursive(root.rightNode, nodeData);
-        } else if (nodeData.equals(root.nodeData)) {
-            if (root.rightNode == null && root.leftNode == null) {
+    public TreeNode<E> removeNodeRecursive(TreeNode<E> rootNode, E nodeData) {
+        if (rootNode == null) return null;
+        if (nodeData.compareTo(rootNode.nodeData) < 0) {
+            rootNode.leftNode = removeNodeRecursive(rootNode.leftNode, nodeData);
+        } else if (nodeData.compareTo(rootNode.nodeData) > 0) {
+            rootNode.rightNode = removeNodeRecursive(rootNode.rightNode, nodeData);
+        } else if (nodeData.equals(rootNode.nodeData)) {
+            if (rootNode.rightNode == null && rootNode.leftNode == null) {
                 return null;
-            } else if (root.leftNode == null) {
-                return root.rightNode;
-            } else if (root.rightNode == null) {
-                return root.leftNode;
+            } else if (rootNode.leftNode == null) {
+                return rootNode.rightNode;
+            } else if (rootNode.rightNode == null) {
+                return rootNode.leftNode;
             } else {
-                TreeNode<E> largestNode = searchLargest(root.leftNode);
-                root.nodeData = largestNode.nodeData;
-                root.leftNode = removeNodeRecursive(root.leftNode, largestNode.nodeData);
+                TreeNode<E> largestNode = searchLargest(rootNode.leftNode);
+                rootNode.nodeData = largestNode.nodeData;
+                rootNode.leftNode = removeNodeRecursive(rootNode.leftNode, largestNode.nodeData);
             }
         }
-        return root;
+        return rootNode;
     }
 
     /**

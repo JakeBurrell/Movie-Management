@@ -227,6 +227,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
                 return rootNode.rightNode;
             } else if (rootNode.rightNode == null) {
                 return rootNode.leftNode;
+                // If node has two children
             } else {
                 TreeNode<E> largestNode = searchLargest(rootNode.leftNode);
                 rootNode.nodeData = largestNode.nodeData;
@@ -255,7 +256,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
 
 
     /**
-     * Searched for largest node in given sub tree static
+     * Searched for largest node in given sub tree static.
      * @param rootNode The root node of a given subtree.
      * @return The largest node within given subtree.
      */
@@ -268,9 +269,9 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     }
 
     /**
-     * Search for item within binary search tree returning the item if its found otherwise it returns null
-     * @param searchItem Item to search for within the search tree
-     * @return Returns the item when found otherwise it returns null
+     * Search for item within binary search tree returning the item if its found otherwise it returns null.
+     * @param searchItem Item to search for within the search tree.
+     * @return Returns the item when found otherwise it returns null.
      */
     public E searchTree(E searchItem) {
         try {
@@ -281,8 +282,10 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     }
 
     /**
-     * Searches for a particular item in
+     * Searches for a particular item in BST and returns a treeNode.
      * @throws NullPointerException If provided with an invalid item.
+     * @param searchItem Data to be searched for in the tree.
+     * @return A TreeNode within the tree containing the data being search for.
      */
     private TreeNode<E> searchTreeNodes(E searchItem) throws NullPointerException {
         TreeNode<E> searchNode = new TreeNode<>(searchItem);

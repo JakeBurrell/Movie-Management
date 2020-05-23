@@ -85,7 +85,6 @@ public class MovieCollection {
         for (Movie movie : movies) {
             MoviePair moviePair = new MoviePair(movie.getTitle(), movie.getNumBorrows());
             orderedMovies.addNode(moviePair);
-
         }
 
         int index = 0;

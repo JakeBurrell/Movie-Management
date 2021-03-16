@@ -29,7 +29,7 @@ public class MovieManagement {
         String[] hardMemberInfo = {"address", "1234567890", "1234"};
         registeredMembers.registerMember(testMember1);
         registeredMembers.registerMember(testMember);
-        testMember1.registerInfo(hardMemberInfo);
+        //testMember1.registerInfo(hardMemberInfo);
         testMember.registerInfo(hardMemberInfo);
         Movie[] testMovies = Movie.hardCoddedMovies();
         for (Movie movie: testMovies) {

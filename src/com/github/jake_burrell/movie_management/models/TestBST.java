@@ -86,7 +86,7 @@ public class TestBST {
     }
 
     @Test
-    public void testRemoveNode() throws Exception {
+    public void testRemoveNode(){
 
         for(int number : removedNumbers) {
             numbers.removeNode(number);

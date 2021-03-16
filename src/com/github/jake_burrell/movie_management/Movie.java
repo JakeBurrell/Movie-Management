@@ -30,7 +30,8 @@ public class Movie implements Comparable<Movie> {
     /**
      * Movie Classifications overriding the toString method.
      */
-    enum Classification {General {
+    private enum Classification {
+        General {
         @Override
         public String toString() {
             return "General (G)";
@@ -45,23 +46,76 @@ public class Movie implements Comparable<Movie> {
         public String toString() {
             return "Mature (M15+)";
         }
-    }, MatureAccompanied {
+    },  MatureAccompanied {
         @Override
         public String toString() {
             return "Mature Accompanied (MA15+)";
+        }};
+
+        /**
+         * Helper method to return a Classification from an int
+         * @param number from 1-4 corresponding to a Classification
+         * @return Classification corresponding to integer
+         */
+        public static Classification fromInt(int number) {
+            switch (number) {
+                case 1:
+                    return Classification.General;
+                case 2:
+                    return Classification.ParentalGuidance;
+                case 3:
+                    return Classification.Mature;
+                case 4:
+                   return Classification.MatureAccompanied;
+                default:
+                    return null;
+            }
         }
-    } }
+
+    }
 
 
     /**
-     * Movie genres overriding the toString method where needed
+     * Movie genres overriding the toString method where needed and providing a fromInt method
      */
-    enum Genre {Drama, Adventure, Family, Action, SciFi {
+    private enum Genre {Drama, Adventure, Family, Action, SciFi {
         @Override
         public String toString() {
             return "Sci-Fi";
         }
-    }, Comedy, Animation, Thriller, Other}
+    }, Comedy, Animation, Thriller, Other;
+
+        /**
+         * Helper method to set Genre given its corresponding number
+         * @param number between 1 - 9 corresponding to a Genre
+         * @return Genre corresponding to the number
+         */
+    public static Genre fromInt(int number) {
+        switch (number) {
+            case 1:
+                return Genre.Drama;
+            case 2:
+                return Genre.Adventure;
+            case 3:
+                return Genre.Family;
+            case 4:
+                return Genre.Action;
+            case 5:
+                return Genre.SciFi;
+            case 6:
+                return Genre.Comedy;
+            case 7:
+                return Genre.Animation;
+            case 8:
+                return Genre.Thriller;
+            case 9:
+                return Genre.Other;
+            default:
+                return null;
+        }
+
+    }
+    }
 
     // Constructor
     public Movie(String title) {
@@ -169,34 +223,7 @@ public class Movie implements Comparable<Movie> {
             System.out.println("Invalid Genre");
             this.setGenre();
         } else {
-            switch (selection) {
-                case 1:
-                    this.genre = Genre.Drama;
-                    break;
-                case 2:
-                    this.genre = Genre.Adventure;
-                    break;
-                case 3:
-                    this.genre = Genre.Family;
-                    break;
-                case 4:
-                    this.genre = Genre.Action;
-                    break;
-                case 5:
-                    this.genre = Genre.SciFi;
-                    break;
-                case 6:
-                    this.genre = Genre.Comedy;
-                    break;
-                case 7:
-                    this.genre = Genre.Animation;
-                    break;
-                case 8:
-                    this.genre = Genre.Thriller;
-                    break;
-                case 9:
-                    this.genre = Genre.Other;
-            }
+            this.genre = Genre.fromInt(selection);
         }
     }
 
@@ -216,20 +243,7 @@ public class Movie implements Comparable<Movie> {
             System.out.println("Invalid Genre");
             this.setClassification();
         } else {
-            switch (selection) {
-                case 1:
-                    this.classification = Classification.General;
-                    break;
-                case 2:
-                    this.classification = Classification.ParentalGuidance;
-                    break;
-                case 3:
-                    this.classification = Classification.Mature;
-                    break;
-                case 4:
-                    this.classification = Classification.MatureAccompanied;
-                    break;
-            }
+            this.classification = Classification.fromInt(selection);
         }
     }
 

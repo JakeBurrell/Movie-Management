@@ -1,5 +1,6 @@
 package com.github.jake_burrell.movie_management.models;
 
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Stack;
 
@@ -63,7 +64,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     private static class TreeIterator<F extends Comparable<F>> implements Iterator<F> {
 
         private TreeNode<F> currentNode;
-        private final TreeNode<F>[] nodesReturned;
+        private final HashSet<TreeNode<F>> nodesReturned;
         private final Stack<TreeNode<F>> previousNodes;
         private int numNodesReturned;
         private int numNodes;
@@ -77,7 +78,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             currentNode = rootNode;
             previousNodes = new Stack<>();
             numNodesReturned = 0;
-            nodesReturned = new TreeNode[numNodes];
+            nodesReturned = new HashSet<>();
             this.numNodes = numNodes;
             while (currentNode != null && currentNode.leftNode != null) {
                 previousNodes.push(currentNode);
@@ -102,15 +103,15 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
         public F next() {
             F node = currentNode.nodeData;
             numNodesReturned++;
-            nodesReturned[numNodesReturned - 1] = currentNode;
+            nodesReturned.add(currentNode);
             numNodes--;
-            if (currentNode.rightNode != null && notBeenReturned(currentNode.rightNode)) {
+            if (currentNode.rightNode != null && !nodesReturned.contains(currentNode.rightNode)) {
                 currentNode = currentNode.rightNode;
                 while (currentNode.leftNode != null) {
                     previousNodes.push(currentNode);
                     currentNode = currentNode.leftNode;
                 }
-            } else if (currentNode.leftNode != null && notBeenReturned(currentNode.leftNode)) {
+            } else if (currentNode.leftNode != null && !nodesReturned.contains(currentNode.leftNode)) {
                 currentNode = currentNode.leftNode;
             } else if (!previousNodes.empty()) {
                 currentNode = previousNodes.pop();
@@ -118,27 +119,27 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
             return node;
         }
 
-        /**
-         * Returns true if node has not already been returned. Searches array in reverse as when this method is called
-         * the most recently added nodes are more likely to match the checkNode. Additionally since the nodesReturned
-         * array stores nodes as they are iterated through, it must be in order. Therefore once the search reaches
-         * nodes that can be compared to be smaller then the checkNode. It can be determined that the checkNode does not
-         * exist within the array
-         *
-         * @param checkNode The node to be checked if it has been returned
-         * @return True if and only if node has not previously been returned
-         */
-        private boolean notBeenReturned(TreeNode<F> checkNode) {
-            for (int index = numNodesReturned - 1; index >= 0; index--) {
-                if (nodesReturned[index] == checkNode) {
-                    return false;
-                } else if (nodesReturned[index].compareTo(checkNode) < 0) break;
-            }
-            return true;
-        }
+//        /**
+//         * Returns true if node has not already been returned. Searches array in reverse as when this method is called
+//         * the most recently added nodes are more likely to match the checkNode. Additionally since the nodesReturned
+//         * array stores nodes as they are iterated through, it must be in order. Therefore once the search reaches
+//         * nodes that can be compared to be smaller then the checkNode. It can be determined that the checkNode does not
+//         * exist within the array
+//         *
+//         * @param checkNode The node to be checked if it has been returned
+//         * @return True if and only if node has not previously been returned
+//         */
+//        private boolean notBeenReturned(TreeNode<F> checkNode) {
+//            for (int index = numNodesReturned - 1; index >= 0; index--) {
+//                if (nodesReturned[index] == checkNode) {
+//                    return false;
+//                } else if (nodesReturned[index].compareTo(checkNode) < 0) break;
+//            }
+//            return true;
+//        }
 
         /**
-         * Left this in just to just to demonstrate the advantages of the above algorithm
+         * Left this in just to demonstrate the advantages of the above algorithm
          * @see TestBST#testIterator() With an input size of 100_000 this takes noticably longer to run.
          */
         private boolean notBeenReturnedV1(TreeNode<F> checkNode) {
@@ -189,7 +190,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
     /**
      * Searches Binary Search Tree and then removes the given data from the Tree
      * @param nodeData An object of some type that is stored in the Binary Search Tree
-     * @return Returns true if the node existed otherwise returns false
+     * @return Returns true if the node existed otherwise returns false and if null then false
      */
     public boolean removeNode(E nodeData) {
         try {
@@ -214,7 +215,7 @@ public class BinarySearchTree<E extends Comparable<E>> implements Iterable<E> {
      * @param rootNode  The root node of the tree currently attempting to remove node from
      * @param nodeData The node to be remove.
      */
-    public TreeNode<E> removeNodeRecursive(TreeNode<E> rootNode, E nodeData) {
+    private TreeNode<E> removeNodeRecursive(TreeNode<E> rootNode, E nodeData) {
         if (rootNode == null) return null;
         if (nodeData.compareTo(rootNode.nodeData) < 0) {
             rootNode.leftNode = removeNodeRecursive(rootNode.leftNode, nodeData);
